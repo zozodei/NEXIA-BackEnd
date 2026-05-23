@@ -8,10 +8,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db": "node ./src/database/db.js"
+    "db": "node ./src/database/db.js",
+    "app": "node ./src/app.js"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "pg": "^8.21.0"
   }
 }
