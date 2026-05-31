@@ -1,37 +1,40 @@
 import { Router } from 'express';
-import ProfesorService from './../services/profesorService.js';
+import ProfesorService from '../services/profesorService.js';
+import { ok, notFound, serverError } from '../helpers/responseHelper.js';
 
 const router = Router();
-const svc = new ProfesorService();
+const service = new ProfesorService();
+
+router.get('/', async (req, res) => {
+  try {
+    const data = await service.getAllAsync(req.query.institucion_id);
+    return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
+});
 
 router.get('/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
+  try {
+    const data = await service.getByIdAsync(req.params.id);
 
-        const data = await svc.getByIdAsync(id);
-
-        data
-            ? res.status(200).json(data)
-            : res.status(404).send('Profesor no encontrado.');
-    } catch (e) {
-        console.error("Error en GET /profesor/:id:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
+    if (!data) {
+      return notFound(res, 'Profesor no encontrado');
     }
+
+    return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
 });
 
 router.get('/:id/materias', async (req, res) => {
-    try {
-        const profesorId = req.params.id;
-
-        const data = await svc.getMateriasAsync(profesorId);
-
-        data != null
-            ? res.status(200).json(data)
-            : res.status(500).send('Error interno.');
-    } catch (e) {
-        console.error("Error en GET /profesor/:id/materias:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
-    }
+  try {
+    const data = await service.getMateriasAsync(req.params.id);
+    return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
 });
 
 export default router;

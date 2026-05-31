@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db": "node ./src/database/db.js",
-    "app": "node ./src/app.js"
+    "app": "node ./src/app.js",
+    "dev": "node ./src/app.js" 
   },
   "dependencies": {
     "cors": "^2.8.6",
@@ -18,3 +19,5 @@
     "pg": "^8.21.0"
   }
 }
+
+

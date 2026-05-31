@@ -1,68 +1,53 @@
 import { Router } from 'express';
-import AlumnoService from './../services/alumnoService.js';
+import AlumnoService from '../services/alumnoService.js';
+import { ok, notFound, serverError } from '../helpers/responseHelper.js';
 
 const router = Router();
-const svc = new AlumnoService();
+const service = new AlumnoService();
+
+router.get('/', async (req, res) => {
+  try {
+    const data = await service.getAllAsync(req.query.institucion_id);
+    return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
+});
 
 router.get('/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
+  try {
+    const data = await service.getByIdAsync(req.params.id);
 
-        const data = await svc.getByIdAsync(id);
-
-        data
-            ? res.status(200).json(data)
-            : res.status(404).send('Alumno no encontrado.');
-    } catch (e) {
-        console.error("Error en GET /alumno/:id:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
+    if (!data) {
+      return notFound(res, 'Alumno no encontrado');
     }
+
+    return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
 });
 
 router.get('/:id/materias', async (req, res) => {
-    try {
-        const alumnoId = req.params.id;
-
-        const data = await svc.getMateriasAsync(alumnoId);
-
-        data != null
-            ? res.status(200).json(data)
-            : res.status(500).send('Error interno.');
-    } catch (e) {
-        console.error("Error en GET /alumno/:id/materias:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
-    }
-});
-
-router.get('/:id/materias-con-contenidos', async (req, res) => {
-    try {
-        const alumnoId = req.params.id;
-
-        const data = await svc.getMateriasConContenidosAsync(alumnoId);
-
-        data != null
-            ? res.status(200).json(data)
-            : res.status(500).send('Error interno.');
-    } catch (e) {
-        console.error("Error en GET /alumno/:id/materias-con-contenidos:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
-    }
+  try {
+    const data = await service.getMateriasConContenidosAsync(req.params.id);
+    return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
 });
 
 router.get('/:id/contenidos', async (req, res) => {
-    try {
-        const alumnoId = req.params.id;
-        const materiaId = req.query.materiaId || null;
+  try {
+    const data = await service.getContenidosAsync(
+      req.params.id,
+      req.query.materia_id
+    );
 
-        const data = await svc.getContenidosAsync(alumnoId, materiaId);
-
-        data != null
-            ? res.status(200).json(data)
-            : res.status(500).send('Error interno.');
-    } catch (e) {
-        console.error("Error en GET /alumno/:id/contenidos:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
-    }
+    return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
 });
 
 export default router;

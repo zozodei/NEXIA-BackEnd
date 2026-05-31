@@ -1,34 +1,34 @@
 import { Router } from 'express';
 import AuthService from '../services/authService.js';
+import { ok, badRequest, unauthorized, serverError } from '../helpers/responseHelper.js';
+import { missingFields } from '../helpers/validationHelper.js';
 
 const router = Router();
-const svc = new AuthService();
+const service = new AuthService();
 
 router.post('/login', async (req, res) => {
-    try {
-        const { institucion_id, dni, password } = req.body;
+  try {
+    const faltantes = missingFields(req.body, [
+      'institucion_id',
+      'dni',
+      'password',
+      'rol'
+    ]);
 
-        if (!institucion_id || !dni || !password) {
-            return res.status(400).json({
-                message: 'institucion_id, dni y password son obligatorios.'
-            });
-        }
-
-        const usuario = await svc.loginAsync(institucion_id, dni, password);
-
-        if (!usuario) {
-            return res.status(401).json({
-                message: 'DNI o contraseña incorrectos.'
-            });
-        }
-
-        return res.status(200).json(usuario);
-    } catch (error) {
-        console.error('Error en POST /auth/login:', error.message);
-        return res.status(500).json({
-            message: 'Error interno en login.'
-        });
+    if (faltantes.length > 0) {
+      return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
     }
+
+    const user = await service.loginAsync(req.body);
+
+    if (!user) {
+      return unauthorized(res, 'Institución, DNI, contraseña o rol incorrectos');
+    }
+
+    return ok(res, user, 'Login correcto');
+  } catch (error) {
+    return serverError(res, error);
+  }
 });
 
 export default router;

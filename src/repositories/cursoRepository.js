@@ -1,41 +1,29 @@
 import pool from '../database/db.js';
 
 export default class CursoRepository {
-	constructor() { console.log('Estoy en: CursoRepository.constructor()'); }
+  getAllAsync = async (institucionId = null) => {
+    const values = [];
+    let filtro = '';
 
-	getAllAsync = async () => {
-		try { const result = await pool.query('SELECT * FROM curso'); return result.rows; }
-		catch (error) { console.log(error); return null; }
-	}
+    if (institucionId) {
+      values.push(institucionId);
+      filtro = 'WHERE c.institucion_id = $1';
+    }
 
-	getByIdAsync = async (id) => {
-		try { const result = await pool.query('SELECT * FROM curso WHERE id = $1', [id]); return result.rows[0] || null; }
-		catch (error) { console.log(error); return null; }
-	}
+    const result = await pool.query(`
+      SELECT
+        c.id AS curso_id,
+        c.institucion_id,
+        c.anio,
+        c.division,
+        e.id AS especialidad_id,
+        e.nombre AS especialidad_nombre
+      FROM curso c
+      LEFT JOIN especialidad e ON e.id = c.especialidad_id
+      ${filtro}
+      ORDER BY c.anio, c.division
+    `, values);
 
-	createAsync = async (payload) => {
-		try {
-			const keys = Object.keys(payload);
-			if (keys.length === 0) return null;
-			const cols = keys.join(', ');
-			const params = keys.map((_, i) => `$${i + 1}`).join(', ');
-			const values = keys.map(k => payload[k]);
-			const q = `INSERT INTO curso (${cols}) VALUES (${params}) RETURNING *`;
-			const result = await pool.query(q, values);
-			return result.rows[0] || null;
-		} catch (error) { console.log(error); return null; }
-	}
-
-	updateAsync = async (id, payload) => {
-		try {
-			const keys = Object.keys(payload);
-			if (keys.length === 0) return null;
-			const set = keys.map((k, i) => `${k} = $${i + 1}`).join(', ');
-			const values = keys.map(k => payload[k]);
-			values.push(id);
-			const q = `UPDATE curso SET ${set} WHERE id = $${values.length} RETURNING *`;
-			const result = await pool.query(q, values);
-			return result.rows[0] || null;
-		} catch (error) { console.log(error); return null; }
-	}
+    return result.rows;
+  };
 }

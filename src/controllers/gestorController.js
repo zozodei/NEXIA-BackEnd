@@ -1,75 +1,130 @@
 import { Router } from 'express';
-import GestorService from './../services/gestorService.js';
+import GestorService from '../services/gestorService.js';
+import {
+  created,
+  ok,
+  badRequest,
+  notFound,
+  conflict,
+  serverError
+} from '../helpers/responseHelper.js';
+import { missingFields } from '../helpers/validationHelper.js';
 
 const router = Router();
-const svc = new GestorService();
+const service = new GestorService();
 
-router.post('', async (req, res) => {
-    try {
-        const created = await svc.crearGestorAsync(req.body);
+const handlePostgresError = (res, error) => {
+  if (error.code === '23505') {
+    return conflict(res, 'Ya existe un registro con email o DNI repetido');
+  }
 
-        created
-            ? res.status(201).json(created)
-            : res.status(500).send('Error al crear gestor.');
-    } catch (e) {
-        console.error("Error en POST /gestor:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
+  if (error.code === '23503') {
+    return badRequest(res, 'Algún ID enviado no existe en la base de datos');
+  }
+
+  return serverError(res, error);
+};
+
+router.post('/', async (req, res) => {
+  try {
+    const faltantes = missingFields(req.body, ['nombre', 'dni', 'password']);
+
+    if (faltantes.length > 0) {
+      return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
     }
+
+    const data = await service.crearGestorAsync(req.body);
+    return created(res, data, 'Gestor creado correctamente');
+  } catch (error) {
+    return handlePostgresError(res, error);
+  }
 });
 
 router.post('/alumnos', async (req, res) => {
-    try {
-        const created = await svc.crearAlumnoAsync(req.body);
+  try {
+    const faltantes = missingFields(req.body, [
+      'institucion_id',
+      'nombre',
+      'apellido',
+      'email',
+      'password',
+      'dni',
+      'curso_id'
+    ]);
 
-        created
-            ? res.status(201).json(created)
-            : res.status(500).send('Error al crear alumno.');
-    } catch (e) {
-        console.error("Error en POST /gestor/alumnos:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
+    if (faltantes.length > 0) {
+      return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
     }
+
+    const data = await service.crearAlumnoAsync(req.body);
+    return created(res, data, 'Alumno creado correctamente');
+  } catch (error) {
+    return handlePostgresError(res, error);
+  }
 });
 
 router.post('/profesores', async (req, res) => {
-    try {
-        const created = await svc.crearProfesorAsync(req.body);
+  try {
+    const faltantes = missingFields(req.body, [
+      'institucion_id',
+      'nombre',
+      'apellido',
+      'email',
+      'password',
+      'dni'
+    ]);
 
-        created
-            ? res.status(201).json(created)
-            : res.status(500).send('Error al crear profesor.');
-    } catch (e) {
-        console.error("Error en POST /gestor/profesores:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
+    if (faltantes.length > 0) {
+      return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
     }
+
+    const data = await service.crearProfesorAsync(req.body);
+    return created(res, data, 'Profesor creado correctamente');
+  } catch (error) {
+    return handlePostgresError(res, error);
+  }
 });
 
-router.post('/alumnos/:alumnoId/curso', async (req, res) => {
-    try {
-        const alumnoId = req.params.alumnoId;
-        const { curso_id } = req.body;
+router.put('/alumnos/:alumnoId/curso', async (req, res) => {
+  try {
+    const faltantes = missingFields(req.body, ['curso_id']);
 
-        const updated = await svc.asignarAlumnoACursoAsync(alumnoId, curso_id);
-
-        updated
-            ? res.status(200).json(updated)
-            : res.status(404).send('Alumno no encontrado.');
-    } catch (e) {
-        console.error("Error en POST /gestor/alumnos/:alumnoId/curso:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
+    if (faltantes.length > 0) {
+      return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
     }
+
+    const data = await service.asignarAlumnoACursoAsync(
+      req.params.alumnoId,
+      req.body.curso_id
+    );
+
+    if (!data) {
+      return notFound(res, 'Alumno no encontrado');
+    }
+
+    return ok(res, data, 'Alumno asignado a curso correctamente');
+  } catch (error) {
+    return handlePostgresError(res, error);
+  }
 });
 
 router.post('/profesores/asignar-materia', async (req, res) => {
-    try {
-        const created = await svc.asignarProfesorAMateriaAsync(req.body);
+  try {
+    const faltantes = missingFields(req.body, [
+      'profesor_id',
+      'curso_id',
+      'materia_id'
+    ]);
 
-        created
-            ? res.status(201).json(created)
-            : res.status(500).send('Error al asignar profesor a materia.');
-    } catch (e) {
-        console.error("Error en POST /gestor/profesores/asignar-materia:", e.message);
-        res.status(500).send(`Error: ${e.message}`);
+    if (faltantes.length > 0) {
+      return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
     }
+
+    const data = await service.asignarProfesorAMateriaAsync(req.body);
+    return created(res, data, 'Profesor asignado a materia correctamente');
+  } catch (error) {
+    return handlePostgresError(res, error);
+  }
 });
 
 export default router;

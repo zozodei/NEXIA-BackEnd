@@ -1,28 +1,27 @@
-import GestorRepository from "../repositories/gestorRepository.js";
+import GestorRepository from '../repositories/gestorRepository.js';
 
 export default class GestorService {
-    constructor() {
-        console.log('Estoy en: GestorService.constructor()');
-        this.repo = new GestorRepository();
-    }
+  constructor() {
+    this.repo = new GestorRepository();
+  }
 
-    crearGestorAsync = async (payload) => {
-        return await this.repo.crearGestorAsync(payload);
-    }
+  crearGestorAsync = async (data) => {
+    return await this.repo.crearGestorAsync(data);
+  };
 
-    crearAlumnoAsync = async (payload) => {
-        return await this.repo.crearAlumnoAsync(payload);
-    }
+  crearAlumnoAsync = async (data) => {
+    return await this.repo.crearAlumnoAsync(data);
+  };
 
-    crearProfesorAsync = async (payload) => {
-        return await this.repo.crearProfesorAsync(payload);
-    }
+  crearProfesorAsync = async (data) => {
+    return await this.repo.crearProfesorAsync(data);
+  };
 
-    asignarAlumnoACursoAsync = async (alumnoId, cursoId) => {
-        return await this.repo.asignarAlumnoACursoAsync(alumnoId, cursoId);
-    }
+  asignarAlumnoACursoAsync = async (alumnoId, cursoId) => {
+    return await this.repo.asignarAlumnoACursoAsync(alumnoId, cursoId);
+  };
 
-    asignarProfesorAMateriaAsync = async (payload) => {
-        return await this.repo.asignarProfesorAMateriaAsync(payload);
-    }
+  asignarProfesorAMateriaAsync = async (data) => {
+    return await this.repo.asignarProfesorAMateriaAsync(data);
+  };
 }

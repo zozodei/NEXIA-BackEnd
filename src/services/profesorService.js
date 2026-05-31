@@ -1,16 +1,19 @@
-import ProfesorRepository from "../repositories/profesorRepository.js";
+import ProfesorRepository from '../repositories/profesorRepository.js';
 
 export default class ProfesorService {
-    constructor() {
-        console.log('Estoy en: ProfesorService.constructor()');
-        this.repo = new ProfesorRepository();
-    }
+  constructor() {
+    this.repo = new ProfesorRepository();
+  }
 
-    getByIdAsync = async (id) => {
-        return await this.repo.getByIdAsync(id);
-    }
+  getAllAsync = async (institucionId) => {
+    return await this.repo.getAllAsync(institucionId);
+  };
 
-    getMateriasAsync = async (profesorId) => {
-        return await this.repo.getMateriasAsync(profesorId);
-    }
+  getByIdAsync = async (id) => {
+    return await this.repo.getByIdAsync(id);
+  };
+
+  getMateriasAsync = async (id) => {
+    return await this.repo.getMateriasAsync(id);
+  };
 }

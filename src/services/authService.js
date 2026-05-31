@@ -1,32 +1,30 @@
 import AuthRepository from '../repositories/authRepository.js';
 
 export default class AuthService {
-    constructor() {
-        console.log('Estoy en: AuthService.constructor()');
-        this.repo = new AuthRepository();
+  constructor() {
+    this.repo = new AuthRepository();
+  }
+
+  loginAsync = async ({ institucion_id, dni, password, rol }) => {
+    const rolNormalizado = rol.toUpperCase();
+
+    if (rolNormalizado === 'GESTOR') {
+      return await this.repo.loginGestorAsync({
+        institucion_id,
+        dni,
+        password
+      });
     }
 
-    loginAsync = async (institucionId, dni, password) => {
-        const usuario = await this.repo.loginUsuarioAsync(
-            institucionId,
-            dni,
-            password
-        );
-
-        if (usuario) {
-            return usuario;
-        }
-
-        const gestor = await this.repo.loginGestorAsync(
-            institucionId,
-            dni,
-            password
-        );
-
-        if (gestor) {
-            return gestor;
-        }
-
-        return null;
+    if (rolNormalizado === 'ALUMNO' || rolNormalizado === 'PROFESOR') {
+      return await this.repo.loginUsuarioAsync({
+        institucion_id,
+        dni,
+        password,
+        rol: rolNormalizado
+      });
     }
+
+    return null;
+  };
 }
