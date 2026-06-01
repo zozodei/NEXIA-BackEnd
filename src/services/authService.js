@@ -5,24 +5,35 @@ export default class AuthService {
     this.repo = new AuthRepository();
   }
 
-  loginAsync = async ({ institucion_id, dni, password, rol }) => {
-    const rolNormalizado = rol.toUpperCase();
+  loginAsync = async ({ institucion_id, dni, password }) => {
+    const usuario = await this.repo.loginUsuarioAsync({
+      institucion_id,
+      dni,
+      password
+    });
 
-    if (rolNormalizado === 'GESTOR') {
-      return await this.repo.loginGestorAsync({
-        institucion_id,
-        dni,
-        password
-      });
+    if (usuario) {
+      return usuario;
     }
 
-    if (rolNormalizado === 'ALUMNO' || rolNormalizado === 'PROFESOR') {
-      return await this.repo.loginUsuarioAsync({
-        institucion_id,
-        dni,
-        password,
-        rol: rolNormalizado
-      });
+    const gestor = await this.repo.loginGestorAsync({
+      institucion_id,
+      dni,
+      password
+    });
+
+    if (gestor) {
+      return gestor;
+    }
+
+    const director = await this.repo.loginDirectorAsync({
+      institucion_id,
+      dni,
+      password
+    });
+
+    if (director) {
+      return director;
     }
 
     return null;

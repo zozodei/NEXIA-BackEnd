@@ -2,6 +2,7 @@ import pool from '../database/db.js';
 
 export default class ContenidoRepository {
   getAllAsync = async () => {
+    
     const result = await pool.query(`
       SELECT
         con.id AS contenido_id,

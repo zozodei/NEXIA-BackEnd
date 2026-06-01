@@ -1,6 +1,11 @@
 import { Router } from 'express';
 import AuthService from '../services/authService.js';
-import { ok, badRequest, unauthorized, serverError } from '../helpers/responseHelper.js';
+import {
+  ok,
+  badRequest,
+  unauthorized,
+  serverError
+} from '../helpers/responseHelper.js';
 import { missingFields } from '../helpers/validationHelper.js';
 
 const router = Router();
@@ -11,8 +16,7 @@ router.post('/login', async (req, res) => {
     const faltantes = missingFields(req.body, [
       'institucion_id',
       'dni',
-      'password',
-      'rol'
+      'password'
     ]);
 
     if (faltantes.length > 0) {
@@ -22,7 +26,7 @@ router.post('/login', async (req, res) => {
     const user = await service.loginAsync(req.body);
 
     if (!user) {
-      return unauthorized(res, 'Institución, DNI, contraseña o rol incorrectos');
+      return unauthorized(res, 'Institución, DNI o contraseña incorrectos');
     }
 
     return ok(res, user, 'Login correcto');
