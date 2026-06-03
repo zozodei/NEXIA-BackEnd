@@ -4,6 +4,7 @@ import {
   ok,
   created,
   badRequest,
+  notFound,
   serverError
 } from '../helpers/responseHelper.js';
 import { missingFields } from '../helpers/validationHelper.js';
@@ -24,6 +25,22 @@ router.get('/profesor/:profesorId', async (req, res) => {
   try {
     const data = await service.getByProfesorAsync(req.params.profesorId);
     return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
+});
+
+router.get('/profe-curso-materia/:profeCursoMateriaId', async (req, res) => {
+  try {
+    const data = await service.getByProfeCursoMateriaAsync(
+      req.params.profeCursoMateriaId
+    );
+
+    if (!data) {
+      return notFound(res, 'La materia asignada al profesor no existe');
+    }
+
+    return ok(res, data, 'Contenidos de la materia obtenidos correctamente');
   } catch (error) {
     return serverError(res, error);
   }

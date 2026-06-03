@@ -16,4 +16,19 @@ export default class ContenidoService {
   getByProfesorAsync = async (profesorId) => {
     return await this.repo.getByProfesorAsync(profesorId);
   };
+
+  getByProfeCursoMateriaAsync = async (profeCursoMateriaId) => {
+    const detalle = await this.repo.getDetalleProfeCursoMateriaAsync(profeCursoMateriaId);
+
+    if (!detalle) {
+      return null;
+    }
+
+    const contenidos = await this.repo.getByProfeCursoMateriaAsync(profeCursoMateriaId);
+
+    return {
+      materia: detalle,
+      contenidos
+    };
+  };
 }
