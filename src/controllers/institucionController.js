@@ -4,7 +4,7 @@ import InstitucionService from './../services/institucionService.js';
 const router = Router();
 const svc = new InstitucionService();
 
-router.get('', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const data = await svc.getAllAsync();
 
