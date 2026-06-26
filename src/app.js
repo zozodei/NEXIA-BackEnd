@@ -10,6 +10,7 @@ import materiaController from './controllers/materiaController.js';
 import contenidoController from './controllers/contenidoController.js';
 import tipoContenidoController from './controllers/tipoContenidoController.js';
 import institucionController from './controllers/institucionController.js';
+import comunicadoController from './controllers/comunicadoController.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +34,7 @@ app.use('/api/materias', materiaController);
 app.use('/api/contenidos', contenidoController);
 app.use('/api/tipos-contenido', tipoContenidoController);
 app.use('/api/instituciones', institucionController);
+app.use('/api/comunicados', comunicadoController);
 
 app.use((req, res) => {
   res.status(404).json({
