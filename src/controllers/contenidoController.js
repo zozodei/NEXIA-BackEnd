@@ -11,6 +11,7 @@ import {
 import { missingFields } from '../helpers/validationHelper.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { requireRoles } from '../middleware/rolesMiddleware.js';
+import upload from '../middleware/uploadMiddleware.js';
 
 const router = Router();
 const service = new ContenidoService();
@@ -61,6 +62,24 @@ router.get('/profe-curso-materia/:profeCursoMateriaId', verifyToken, async (req,
     return serverError(res, error);
   }
 });
+
+// Upload de PDF — solo PROFESOR
+router.post(
+  '/upload',
+  verifyToken,
+  requireRoles('PROFESOR'),
+  (req, res, next) => {
+    upload.single('archivo')(req, res, (err) => {
+      if (err) return badRequest(res, err.message);
+      next();
+    });
+  },
+  (req, res) => {
+    if (!req.file) return badRequest(res, 'No se recibió ningún archivo');
+    const url = `http://localhost:3000/uploads/${req.file.filename}`;
+    return ok(res, { url }, 'Archivo subido correctamente');
+  }
+);
 
 // Solo el PROFESOR puede subir contenido
 router.post('/', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
