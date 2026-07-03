@@ -62,6 +62,27 @@ export default class ContenidoRepository {
     return result.rows[0];
   };
 
+  updateAsync = async (id, { titulo, descripcion, archivo_url, tipo_contenido_id }) => {
+    const result = await pool.query(`
+      UPDATE contenido
+      SET
+        titulo = COALESCE($2, titulo),
+        descripcion = COALESCE($3, descripcion),
+        archivo_url = COALESCE($4, archivo_url),
+        tipo_contenido_id = COALESCE($5, tipo_contenido_id)
+      WHERE id = $1
+      RETURNING *
+    `, [
+      id,
+      titulo || null,
+      descripcion || null,
+      archivo_url || null,
+      tipo_contenido_id || null
+    ]);
+
+    return result.rows[0] || null;
+  };
+
   getByProfesorAsync = async (profesorId) => {
     const result = await pool.query(`
       SELECT

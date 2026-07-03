@@ -1,0 +1,641 @@
+[
+  {
+    "id": "1",
+    "profe_curso_materia_id": "1",
+    "tipo_contenido_id": "3",
+    "titulo": "Introducción a JavaScript",
+    "descripcion": "Guía de MDN para empezar con JavaScript.",
+    "archivo_url": "https://developer.mozilla.org/es/docs/Web/JavaScript/Guide",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "2",
+    "profe_curso_materia_id": "1",
+    "tipo_contenido_id": "3",
+    "titulo": "Variables y tipos de datos",
+    "descripcion": "Material de MDN sobre variables, tipos y sintaxis básica.",
+    "archivo_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "3",
+    "profe_curso_materia_id": "1",
+    "tipo_contenido_id": "3",
+    "titulo": "Aprender desarrollo web",
+    "descripcion": "Ruta de aprendizaje de MDN para desarrollo web.",
+    "archivo_url": "https://developer.mozilla.org/es/docs/Learn_web_development",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "4",
+    "profe_curso_materia_id": "2",
+    "tipo_contenido_id": "3",
+    "titulo": "Introducción a SQL",
+    "descripcion": "Tutorial introductorio de SQL.",
+    "archivo_url": "https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/view",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "5",
+    "profe_curso_materia_id": "2",
+    "tipo_contenido_id": "3",
+    "titulo": "SQL SELECT",
+    "descripcion": "Explicación de consultas SELECT.",
+    "archivo_url": "https://www.youtube.com/watch?v=qjgeCjzk1V8&list=RDqjgeCjzk1V8&start_radio=1",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "6",
+    "profe_curso_materia_id": "2",
+    "tipo_contenido_id": "3",
+    "titulo": "SQL WHERE",
+    "descripcion": "Material sobre filtros con WHERE.",
+    "archivo_url": "https://youtu.be/dQw4w9WgXcQ",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "7",
+    "profe_curso_materia_id": "5",
+    "tipo_contenido_id": "3",
+    "titulo": "Funciones lineales",
+    "descripcion": "Unidad de Khan Academy sobre ecuaciones y funciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra-home/alg-linear-eq-func",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "8",
+    "profe_curso_materia_id": "5",
+    "tipo_contenido_id": "3",
+    "titulo": "Gráficos de ecuaciones lineales",
+    "descripcion": "Material sobre gráficos, pendiente e intersecciones.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86%3Alinear-equations-graphs",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "9",
+    "profe_curso_materia_id": "5",
+    "tipo_contenido_id": "2",
+    "titulo": "Video: reconocer funciones lineales",
+    "descripcion": "Video de Khan Academy sobre funciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/cc-eighth-grade-math/cc-8th-linear-equations-functions/linear-nonlinear-functions-tut/v/recognizing-linear-functions",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "10",
+    "profe_curso_materia_id": "13",
+    "tipo_contenido_id": "3",
+    "titulo": "Present Simple",
+    "descripcion": "Material del British Council sobre present simple.",
+    "archivo_url": "https://learnenglishteens.britishcouncil.org/grammar/a1-a2-grammar/present-simple",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "11",
+    "profe_curso_materia_id": "13",
+    "tipo_contenido_id": "3",
+    "titulo": "Past Simple",
+    "descripcion": "Material del British Council sobre past simple.",
+    "archivo_url": "https://learnenglish.britishcouncil.org/free-resources/grammar/english-grammar-reference/past-simple",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "12",
+    "profe_curso_materia_id": "13",
+    "tipo_contenido_id": "3",
+    "titulo": "Past Simple Regular Verbs",
+    "descripcion": "Ejercitación sobre verbos regulares en pasado.",
+    "archivo_url": "https://learnenglishteens.britishcouncil.org/grammar/a1-a2-grammar/past-simple-regular-verbs",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "13",
+    "profe_curso_materia_id": "19",
+    "tipo_contenido_id": "3",
+    "titulo": "Leyes de Newton",
+    "descripcion": "Unidad de Khan Academy sobre fuerzas y leyes de Newton.",
+    "archivo_url": "https://www.khanacademy.org/science/physics/forces-newtons-laws",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "14",
+    "profe_curso_materia_id": "19",
+    "tipo_contenido_id": "3",
+    "titulo": "Movimiento rectilíneo uniforme",
+    "descripcion": "Artículo introductorio sobre MRU.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Movimiento_rectil%C3%ADneo_uniforme",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "15",
+    "profe_curso_materia_id": "19",
+    "tipo_contenido_id": "3",
+    "titulo": "Trabajo y energía",
+    "descripcion": "Unidad de Khan Academy sobre trabajo y energía.",
+    "archivo_url": "https://www.khanacademy.org/science/physics/work-and-energy",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "16",
+    "profe_curso_materia_id": "20",
+    "tipo_contenido_id": "3",
+    "titulo": "Elementos y átomos",
+    "descripcion": "Artículo de Khan Academy sobre elementos, átomos y tabla periódica.",
+    "archivo_url": "https://www.khanacademy.org/science/ms-chemistry/xc370bc422b7f75fc%3Aclassifying-matter/xc370bc422b7f75fc%3Aelements-and-atoms/a/elements-atoms-and-the-periodic-table",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "17",
+    "profe_curso_materia_id": "20",
+    "tipo_contenido_id": "3",
+    "titulo": "Tabla periódica",
+    "descripcion": "Artículo introductorio sobre la tabla periódica.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Tabla_peri%C3%B3dica_de_los_elementos",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "18",
+    "profe_curso_materia_id": "20",
+    "tipo_contenido_id": "3",
+    "titulo": "Estructura atómica",
+    "descripcion": "Unidad de Khan Academy sobre estructura atómica.",
+    "archivo_url": "https://www.khanacademy.org/science/chemistry/atomic-structure-and-properties",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "19",
+    "profe_curso_materia_id": "6",
+    "tipo_contenido_id": "3",
+    "titulo": "Funciones lineales",
+    "descripcion": "Unidad de Khan Academy sobre funciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra-home/alg-linear-eq-func",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "20",
+    "profe_curso_materia_id": "6",
+    "tipo_contenido_id": "3",
+    "titulo": "Ecuaciones lineales",
+    "descripcion": "Material sobre resolución de ecuaciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra-home/alg-basic-eq-ineq/alg-old-school-equations/v/algebra-linear-equations-1",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "21",
+    "profe_curso_materia_id": "6",
+    "tipo_contenido_id": "2",
+    "titulo": "Video: gráficos de ecuaciones lineales",
+    "descripcion": "Recurso de Khan Academy sobre gráficos lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86%3Alinear-equations-graphs",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "22",
+    "profe_curso_materia_id": "9",
+    "tipo_contenido_id": "3",
+    "titulo": "Edad Moderna",
+    "descripcion": "Artículo introductorio sobre la Edad Moderna.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Edad_Moderna",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "23",
+    "profe_curso_materia_id": "9",
+    "tipo_contenido_id": "3",
+    "titulo": "Revolución Industrial",
+    "descripcion": "Artículo de Khan Academy sobre la Revolución Industrial.",
+    "archivo_url": "https://www.khanacademy.org/humanities/world-history-project-ap/xb41992e0ff5e0f09%3Aunit-5-revolutions/xb41992e0ff5e0f09%3A5-3the-industrial-revolution-begins/a/article-the-industrial-revolution-ap",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "24",
+    "profe_curso_materia_id": "9",
+    "tipo_contenido_id": "2",
+    "titulo": "Video: industrialización e imperialismo",
+    "descripcion": "Video de Khan Academy sobre industrialización e imperialismo.",
+    "archivo_url": "https://www.khanacademy.org/humanities/world-history/1600s-1800s/imperialism/v/industrialization-and-imperialism",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "25",
+    "profe_curso_materia_id": "10",
+    "tipo_contenido_id": "3",
+    "titulo": "Biblioteca Virtual Miguel de Cervantes",
+    "descripcion": "Biblioteca virtual con textos literarios en español.",
+    "archivo_url": "https://www.cervantesvirtual.com/",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "26",
+    "profe_curso_materia_id": "10",
+    "tipo_contenido_id": "3",
+    "titulo": "Don Quijote de la Mancha",
+    "descripcion": "Texto disponible para lectura digital.",
+    "archivo_url": "https://www.cervantesvirtual.com/obra-visor/el-ingenioso-hidalgo-don-quijote-de-la-mancha--0/html/",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "27",
+    "profe_curso_materia_id": "10",
+    "tipo_contenido_id": "3",
+    "titulo": "Biblioteca Digital Hispánica",
+    "descripcion": "Repositorio digital de la Biblioteca Nacional de España.",
+    "archivo_url": "https://www.bne.es/es/catalogos/biblioteca-digital-hispanica",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "28",
+    "profe_curso_materia_id": "14",
+    "tipo_contenido_id": "3",
+    "titulo": "Present Simple",
+    "descripcion": "Material sobre present simple.",
+    "archivo_url": "https://learnenglishteens.britishcouncil.org/grammar/a1-a2-grammar/present-simple",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "29",
+    "profe_curso_materia_id": "14",
+    "tipo_contenido_id": "3",
+    "titulo": "Past Simple",
+    "descripcion": "Material sobre past simple.",
+    "archivo_url": "https://learnenglish.britishcouncil.org/free-resources/grammar/english-grammar-reference/past-simple",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "30",
+    "profe_curso_materia_id": "14",
+    "tipo_contenido_id": "3",
+    "titulo": "Irregular verbs",
+    "descripcion": "Material sobre verbos irregulares.",
+    "archivo_url": "https://learnenglishteens.britishcouncil.org/grammar/a1-a2-grammar/past-simple-irregular-verbs",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "31",
+    "profe_curso_materia_id": "15",
+    "tipo_contenido_id": "3",
+    "titulo": "Comunicación",
+    "descripcion": "Artículo introductorio sobre comunicación.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Comunicaci%C3%B3n",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "32",
+    "profe_curso_materia_id": "15",
+    "tipo_contenido_id": "3",
+    "titulo": "Elementos de la comunicación",
+    "descripcion": "Conceptos básicos: emisor, receptor, mensaje y canal.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Comunicaci%C3%B3n#Elementos_de_la_comunicaci%C3%B3n",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "33",
+    "profe_curso_materia_id": "15",
+    "tipo_contenido_id": "3",
+    "titulo": "Comunicación verbal",
+    "descripcion": "Material introductorio sobre comunicación verbal.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Comunicaci%C3%B3n_verbal",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "34",
+    "profe_curso_materia_id": "3",
+    "tipo_contenido_id": "3",
+    "titulo": "Guía oficial de JavaScript",
+    "descripcion": "Documentación de MDN sobre JavaScript.",
+    "archivo_url": "https://developer.mozilla.org/es/docs/Web/JavaScript/Guide",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "35",
+    "profe_curso_materia_id": "3",
+    "tipo_contenido_id": "3",
+    "titulo": "Funciones en JavaScript",
+    "descripcion": "Material de MDN sobre funciones.",
+    "archivo_url": "https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Functions",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "36",
+    "profe_curso_materia_id": "3",
+    "tipo_contenido_id": "3",
+    "titulo": "Arrays en JavaScript",
+    "descripcion": "Referencia de MDN sobre arrays.",
+    "archivo_url": "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "37",
+    "profe_curso_materia_id": "4",
+    "tipo_contenido_id": "3",
+    "titulo": "SQL SELECT",
+    "descripcion": "Explicación de consultas SELECT.",
+    "archivo_url": "https://www.w3schools.com/sql/sql_select.asp",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "38",
+    "profe_curso_materia_id": "4",
+    "tipo_contenido_id": "3",
+    "titulo": "SQL JOIN",
+    "descripcion": "Explicación de relaciones entre tablas usando JOIN.",
+    "archivo_url": "https://www.w3schools.com/Sql/sql_join.asp",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "39",
+    "profe_curso_materia_id": "4",
+    "tipo_contenido_id": "3",
+    "titulo": "PostgreSQL SELECT",
+    "descripcion": "Documentación oficial de PostgreSQL sobre SELECT.",
+    "archivo_url": "https://www.postgresql.org/docs/current/tutorial-select.html",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "40",
+    "profe_curso_materia_id": "7",
+    "tipo_contenido_id": "3",
+    "titulo": "Funciones lineales",
+    "descripcion": "Unidad sobre funciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra-home/alg-linear-eq-func",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "41",
+    "profe_curso_materia_id": "7",
+    "tipo_contenido_id": "3",
+    "titulo": "Formas de ecuaciones lineales",
+    "descripcion": "Repaso de formas de ecuaciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/college-algebra/xa5dd2923c88e7aa8%3Agraphs-and-forms-of-linear-equations/xa5dd2923c88e7aa8%3Awriting-linear-equations-in-any-form/a/forms-of-linear-equations-review",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "42",
+    "profe_curso_materia_id": "7",
+    "tipo_contenido_id": "2",
+    "titulo": "Video: reconocer funciones lineales",
+    "descripcion": "Video sobre funciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/cc-eighth-grade-math/cc-8th-linear-equations-functions/linear-nonlinear-functions-tut/v/recognizing-linear-functions",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "43",
+    "profe_curso_materia_id": "16",
+    "tipo_contenido_id": "3",
+    "titulo": "Present Simple",
+    "descripcion": "Material del British Council sobre present simple.",
+    "archivo_url": "https://learnenglishteens.britishcouncil.org/grammar/a1-a2-grammar/present-simple",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "44",
+    "profe_curso_materia_id": "16",
+    "tipo_contenido_id": "3",
+    "titulo": "Past Simple",
+    "descripcion": "Material del British Council sobre past simple.",
+    "archivo_url": "https://learnenglish.britishcouncil.org/free-resources/grammar/english-grammar-reference/past-simple",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "45",
+    "profe_curso_materia_id": "16",
+    "tipo_contenido_id": "3",
+    "titulo": "To be present and past",
+    "descripcion": "Material sobre el verbo to be en presente y pasado.",
+    "archivo_url": "https://learnenglishteens.britishcouncil.org/grammar/a1-a2-grammar/be-present-past",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "46",
+    "profe_curso_materia_id": "21",
+    "tipo_contenido_id": "3",
+    "titulo": "Leyes de Newton",
+    "descripcion": "Unidad de Khan Academy sobre fuerzas y leyes de Newton.",
+    "archivo_url": "https://www.khanacademy.org/science/physics/forces-newtons-laws",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "47",
+    "profe_curso_materia_id": "21",
+    "tipo_contenido_id": "3",
+    "titulo": "Movimiento rectilíneo uniforme",
+    "descripcion": "Artículo introductorio sobre MRU.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Movimiento_rectil%C3%ADneo_uniforme",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "48",
+    "profe_curso_materia_id": "21",
+    "tipo_contenido_id": "3",
+    "titulo": "Trabajo y energía",
+    "descripcion": "Unidad de Khan Academy sobre trabajo y energía.",
+    "archivo_url": "https://www.khanacademy.org/science/physics/work-and-energy",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "49",
+    "profe_curso_materia_id": "22",
+    "tipo_contenido_id": "3",
+    "titulo": "Tabla periódica",
+    "descripcion": "Material sobre elementos, átomos y tabla periódica.",
+    "archivo_url": "https://www.khanacademy.org/science/ms-chemistry/xc370bc422b7f75fc%3Aclassifying-matter/xc370bc422b7f75fc%3Aelements-and-atoms/a/elements-atoms-and-the-periodic-table",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "50",
+    "profe_curso_materia_id": "22",
+    "tipo_contenido_id": "3",
+    "titulo": "Estructura atómica",
+    "descripcion": "Unidad de Khan Academy sobre estructura atómica.",
+    "archivo_url": "https://www.khanacademy.org/science/chemistry/atomic-structure-and-properties",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "51",
+    "profe_curso_materia_id": "22",
+    "tipo_contenido_id": "3",
+    "titulo": "Tabla periódica de los elementos",
+    "descripcion": "Artículo general sobre la tabla periódica.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Tabla_peri%C3%B3dica_de_los_elementos",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "52",
+    "profe_curso_materia_id": "8",
+    "tipo_contenido_id": "3",
+    "titulo": "Funciones lineales",
+    "descripcion": "Unidad de Khan Academy sobre funciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra-home/alg-linear-eq-func",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "53",
+    "profe_curso_materia_id": "8",
+    "tipo_contenido_id": "3",
+    "titulo": "Ecuaciones lineales",
+    "descripcion": "Material sobre resolución de ecuaciones lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra-home/alg-basic-eq-ineq/alg-old-school-equations/v/algebra-linear-equations-1",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "54",
+    "profe_curso_materia_id": "8",
+    "tipo_contenido_id": "2",
+    "titulo": "Video: gráficos de ecuaciones lineales",
+    "descripcion": "Recurso de Khan Academy sobre gráficos lineales.",
+    "archivo_url": "https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86%3Alinear-equations-graphs",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "55",
+    "profe_curso_materia_id": "11",
+    "tipo_contenido_id": "3",
+    "titulo": "Revolución Industrial",
+    "descripcion": "Artículo de Khan Academy sobre la Revolución Industrial.",
+    "archivo_url": "https://www.khanacademy.org/humanities/world-history-project-ap/xb41992e0ff5e0f09%3Aunit-5-revolutions/xb41992e0ff5e0f09%3A5-3the-industrial-revolution-begins/a/article-the-industrial-revolution-ap",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "56",
+    "profe_curso_materia_id": "11",
+    "tipo_contenido_id": "2",
+    "titulo": "Video: industrialización e imperialismo",
+    "descripcion": "Video educativo sobre industrialización e imperialismo.",
+    "archivo_url": "https://www.khanacademy.org/humanities/world-history/1600s-1800s/imperialism/v/industrialization-and-imperialism",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "57",
+    "profe_curso_materia_id": "11",
+    "tipo_contenido_id": "3",
+    "titulo": "Revolución Francesa",
+    "descripcion": "Artículo introductorio sobre la Revolución Francesa.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Revoluci%C3%B3n_francesa",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "58",
+    "profe_curso_materia_id": "12",
+    "tipo_contenido_id": "3",
+    "titulo": "Biblioteca Virtual Miguel de Cervantes",
+    "descripcion": "Biblioteca virtual con textos literarios en español.",
+    "archivo_url": "https://www.cervantesvirtual.com/",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "59",
+    "profe_curso_materia_id": "12",
+    "tipo_contenido_id": "3",
+    "titulo": "Don Quijote de la Mancha",
+    "descripcion": "Texto literario disponible en línea.",
+    "archivo_url": "https://www.cervantesvirtual.com/obra-visor/el-ingenioso-hidalgo-don-quijote-de-la-mancha--0/html/",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "60",
+    "profe_curso_materia_id": "12",
+    "tipo_contenido_id": "3",
+    "titulo": "Biblioteca Digital Hispánica",
+    "descripcion": "Repositorio digital de la Biblioteca Nacional de España.",
+    "archivo_url": "https://www.bne.es/es/catalogos/biblioteca-digital-hispanica",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "61",
+    "profe_curso_materia_id": "17",
+    "tipo_contenido_id": "3",
+    "titulo": "Present Simple",
+    "descripcion": "Material sobre present simple.",
+    "archivo_url": "https://learnenglishteens.britishcouncil.org/grammar/a1-a2-grammar/present-simple",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "62",
+    "profe_curso_materia_id": "17",
+    "tipo_contenido_id": "3",
+    "titulo": "Past Simple",
+    "descripcion": "Material sobre past simple.",
+    "archivo_url": "https://learnenglish.britishcouncil.org/free-resources/grammar/english-grammar-reference/past-simple",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "63",
+    "profe_curso_materia_id": "17",
+    "tipo_contenido_id": "3",
+    "titulo": "Irregular verbs",
+    "descripcion": "Material sobre verbos irregulares.",
+    "archivo_url": "https://learnenglishteens.britishcouncil.org/grammar/a1-a2-grammar/past-simple-irregular-verbs",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "64",
+    "profe_curso_materia_id": "18",
+    "tipo_contenido_id": "3",
+    "titulo": "Comunicación",
+    "descripcion": "Artículo introductorio sobre comunicación.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Comunicaci%C3%B3n",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "65",
+    "profe_curso_materia_id": "18",
+    "tipo_contenido_id": "3",
+    "titulo": "Elementos de la comunicación",
+    "descripcion": "Conceptos básicos: emisor, receptor, mensaje y canal.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Comunicaci%C3%B3n#Elementos_de_la_comunicaci%C3%B3n",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "66",
+    "profe_curso_materia_id": "18",
+    "tipo_contenido_id": "3",
+    "titulo": "Comunicación verbal",
+    "descripcion": "Material introductorio sobre comunicación verbal.",
+    "archivo_url": "https://es.wikipedia.org/wiki/Comunicaci%C3%B3n_verbal",
+    "fecha_creacion": "2026-05-26T20:01:58.473Z"
+  },
+  {
+    "id": "67",
+    "profe_curso_materia_id": "2",
+    "tipo_contenido_id": "1",
+    "titulo": "Introducción a C#",
+    "descripcion": "Contenidos para el Trabajo Practico",
+    "archivo_url": "https://example.com/intro-js.pdf",
+    "fecha_creacion": "2026-06-01T02:14:45.098Z"
+  },
+  {
+    "id": "87",
+    "profe_curso_materia_id": "4",
+    "tipo_contenido_id": "3",
+    "titulo": "test 2",
+    "descripcion": "NVIFSHUGIFEDSUIVGFEUI",
+    "archivo_url": "https://www.postgresql.org/docs/current/tutorial-select.html",
+    "fecha_creacion": "2026-06-08T17:38:20.300Z"
+  },
+  {
+    "id": "94",
+    "profe_curso_materia_id": "5",
+    "tipo_contenido_id": "1",
+    "titulo": "dsadsadas",
+    "descripcion": "dsadasdas",
+    "archivo_url": "http://localhost:3000/uploads/1782745383272-Qu___es_la_filosof__a_moral.pdf",
+    "fecha_creacion": "2026-06-29T18:03:14.149Z"
+  },
+  {
+    "id": "95",
+    "profe_curso_materia_id": "2",
+    "tipo_contenido_id": "3",
+    "titulo": "Resumen judia",
+    "descripcion": null,
+    "archivo_url": "https://docs.google.com/document/d/1Akpc4_XFYo6QfTgW757wPXQfsZvhjccHW63zmxqWAHU/edit?usp=sharing",
+    "fecha_creacion": "2026-07-03T14:14:54.484Z"
+  },
+  {
+    "id": "96",
+    "profe_curso_materia_id": "2",
+    "tipo_contenido_id": "1",
+    "titulo": "resumen historia 2024",
+    "descripcion": null,
+    "archivo_url": "http://localhost:3000/uploads/1783077387847-Resumen_Historia.pdf",
+    "fecha_creacion": "2026-07-03T14:16:32.493Z"
+  }
+]

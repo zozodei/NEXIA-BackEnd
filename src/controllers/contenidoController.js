@@ -106,6 +106,28 @@ router.post('/', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
   }
 });
 
+// Solo el PROFESOR dueño puede editar su contenido
+router.put('/:id', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
+  try {
+    const existente = await service.getByIdAsync(req.params.id);
+
+    if (!existente) return notFound(res, 'El contenido no existe');
+
+    if (String(existente.profesor_id) !== String(req.user.profesor_id)) {
+      return forbidden(res, 'Solo podés editar tus propios contenidos');
+    }
+
+    const data = await service.updateAsync(req.params.id, req.body);
+    return ok(res, data, 'Contenido actualizado correctamente');
+  } catch (error) {
+    if (error.code === '23503') {
+      return badRequest(res, 'El tipo de contenido no existe');
+    }
+
+    return serverError(res, error);
+  }
+});
+
 // Cualquier usuario autenticado puede ver un contenido por ID
 router.get('/contenido/:contenidoId', verifyToken, async (req, res) => {
   try {

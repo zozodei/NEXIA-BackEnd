@@ -13,6 +13,10 @@ export default class ContenidoService {
     return await this.repo.createAsync(data);
   };
 
+  updateAsync = async (id, data) => {
+    return await this.repo.updateAsync(id, data);
+  };
+
   getByProfesorAsync = async (profesorId) => {
     return await this.repo.getByProfesorAsync(profesorId);
   };
