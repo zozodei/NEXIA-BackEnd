@@ -9,10 +9,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db": "node ./src/database/db.js",
-    "app": "node ./src/app.js",
-    "dev": "node ./src/app.js"
+    "app": "cross-env NODE_EXTRA_CA_CERTS=./certs/fortinet-proxy-ca.pem node ./src/app.js",
+    "dev": "cross-env NODE_EXTRA_CA_CERTS=./certs/fortinet-proxy-ca.pem node ./src/app.js"
   },
   "dependencies": {
+    "@google/genai": "^2.10.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -20,5 +21,8 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.2.0",
     "pg": "^8.21.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0"
   }
 }

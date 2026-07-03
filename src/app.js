@@ -19,6 +19,7 @@ import trabajoPracticoController from './controllers/trabajoPracticoController.j
 import bimestreController from './controllers/bimestreController.js';
 import calificacionController from './controllers/calificacionController.js';
 import boletinController from './controllers/boletinController.js';
+import iaController from './controllers/iaController.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -48,6 +49,7 @@ app.use('/api/trabajos-practicos', trabajoPracticoController);
 app.use('/api/bimestres', bimestreController);
 app.use('/api/calificaciones', calificacionController);
 app.use('/api/boletin', boletinController);
+app.use('/api/ia', iaController);
 
 app.use((req, res) => {
   res.status(404).json({
@@ -67,5 +69,9 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
+  const caStatus = process.env.NODE_EXTRA_CA_CERTS
+    ? `certificado extra cargado (${process.env.NODE_EXTRA_CA_CERTS})`
+    : 'SIN certificado extra — si el proxy de la red intercepta HTTPS, la IA va a fallar. Usá "npm run dev".';
+  console.log(`Tutor IA — TLS: ${caStatus}`);
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
