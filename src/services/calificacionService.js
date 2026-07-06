@@ -21,6 +21,10 @@ export default class CalificacionService {
     return await this.repo.getByAlumnoAsync(alumnoId);
   };
 
+  getMateriasByAlumnoAsync = async (alumnoId) => {
+    return await this.repo.getMateriasByAlumnoAsync(alumnoId);
+  };
+
   getByCursoMateriaAsync = async (cursoMateriaId, bimestreId) => {
     return await this.repo.getByCursoMateriaAsync(cursoMateriaId, bimestreId);
   };

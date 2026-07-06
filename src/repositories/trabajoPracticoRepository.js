@@ -219,7 +219,7 @@ export default class TrabajoPracticoRepository {
       INNER JOIN profe_curso_materia pcm ON pcm.id = tp.profe_curso_materia_id
       INNER JOIN curso_materia cm ON cm.id = pcm.curso_materia_id
       INNER JOIN materia m ON m.id = cm.materia_id
-      WHERE e.alumno_id = $1 AND e.estado = 'corregido'
+      WHERE e.alumno_id = $1 AND e.estado = 'corregido' AND tp.activo = true
       ORDER BY m.nombre, e.fecha_correccion DESC
     `, [alumnoId]);
 

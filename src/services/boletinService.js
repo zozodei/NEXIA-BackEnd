@@ -8,12 +8,14 @@ export default class BoletinService {
   }
 
   getBoletinAlumnoAsync = async (alumnoId) => {
-    const [notasFinales, notasTp] = await Promise.all([
+    const [materias, notasFinales, notasTp] = await Promise.all([
+      this.calificacionService.getMateriasByAlumnoAsync(alumnoId),
       this.calificacionService.getByAlumnoAsync(alumnoId),
       this.trabajoPracticoService.getNotasByAlumnoAsync(alumnoId)
     ]);
 
     return {
+      materias,
       notas_finales: notasFinales,
       notas_trabajos_practicos: notasTp
     };

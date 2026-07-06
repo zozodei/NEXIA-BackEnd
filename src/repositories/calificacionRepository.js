@@ -58,6 +58,23 @@ export default class CalificacionRepository {
     return result.rows[0];
   };
 
+  // Todas las materias del curso del alumno, tenga o no calificaciones cargadas (para el boletín)
+  getMateriasByAlumnoAsync = async (alumnoId) => {
+    const result = await pool.query(`
+      SELECT DISTINCT
+        m.id AS materia_id,
+        m.nombre AS materia_nombre,
+        cm.id AS curso_materia_id
+      FROM alumno a
+      INNER JOIN curso_materia cm ON cm.curso_id = a.curso_id
+      INNER JOIN materia m ON m.id = cm.materia_id
+      WHERE a.id = $1
+      ORDER BY m.nombre
+    `, [alumnoId]);
+
+    return result.rows;
+  };
+
   getByAlumnoAsync = async (alumnoId) => {
     const result = await pool.query(`
       SELECT
