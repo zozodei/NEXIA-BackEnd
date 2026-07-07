@@ -35,4 +35,25 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Renueva el par de tokens a partir de un refresh token válido (rotación)
+router.post('/refresh', async (req, res) => {
+  try {
+    const faltantes = missingFields(req.body, ['refreshToken']);
+
+    if (faltantes.length > 0) {
+      return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
+    }
+
+    const tokens = service.refreshAsync(req.body.refreshToken);
+
+    if (!tokens) {
+      return unauthorized(res, 'Refresh token inválido o expirado');
+    }
+
+    return ok(res, tokens, 'Tokens renovados correctamente');
+  } catch (error) {
+    return serverError(res, error);
+  }
+});
+
 export default router;

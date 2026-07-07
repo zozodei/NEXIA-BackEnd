@@ -4,6 +4,7 @@ import {
   ok,
   created,
   badRequest,
+  notFound,
   serverError
 } from '../helpers/responseHelper.js';
 import { missingFields } from '../helpers/validationHelper.js';
@@ -34,6 +35,46 @@ router.post('/', verifyToken, requireRoles('GESTOR'), async (req, res) => {
       return badRequest(res, 'La institución o el gestor no existe');
     }
 
+    return serverError(res, error);
+  }
+});
+
+// Solo el gestor puede editar comunicados — limitado a su institución
+router.put('/:id', verifyToken, requireRoles('GESTOR'), async (req, res) => {
+  try {
+    const faltantes = missingFields(req.body, ['titulo', 'contenido']);
+
+    if (faltantes.length > 0) {
+      return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
+    }
+
+    const data = await service.updateAsync(
+      req.params.id,
+      req.user.institucion_id,
+      req.body
+    );
+
+    if (!data) {
+      return notFound(res, 'Comunicado no encontrado');
+    }
+
+    return ok(res, data, 'Comunicado actualizado correctamente');
+  } catch (error) {
+    return serverError(res, error);
+  }
+});
+
+// Solo el gestor puede eliminar comunicados (baja lógica) — limitado a su institución
+router.delete('/:id', verifyToken, requireRoles('GESTOR'), async (req, res) => {
+  try {
+    const data = await service.deleteAsync(req.params.id, req.user.institucion_id);
+
+    if (!data) {
+      return notFound(res, 'Comunicado no encontrado');
+    }
+
+    return ok(res, data, 'Comunicado eliminado correctamente');
+  } catch (error) {
     return serverError(res, error);
   }
 });

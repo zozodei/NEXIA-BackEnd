@@ -67,6 +67,9 @@ export default class AlumnoRepository {
         c.id AS curso_id,
         c.anio,
         c.division,
+        pcm.id AS profe_curso_materia_id,
+        up.nombre AS profesor_nombre,
+        up.apellido AS profesor_apellido,
         COALESCE(
           json_agg(
             DISTINCT jsonb_build_object(
@@ -94,7 +97,8 @@ export default class AlumnoRepository {
       LEFT JOIN contenido con ON con.profe_curso_materia_id = pcm.id
       LEFT JOIN tipo_contenido tc ON tc.id = con.tipo_contenido_id
       WHERE a.id = $1
-      GROUP BY m.id, m.nombre, m.descripcion, c.id, c.anio, c.division
+      GROUP BY m.id, m.nombre, m.descripcion, c.id, c.anio, c.division,
+               pcm.id, up.nombre, up.apellido
       ORDER BY m.nombre
     `, [alumnoId]);
 

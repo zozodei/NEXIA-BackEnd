@@ -11,6 +11,31 @@ export default class ComunicadoRepository {
     return result.rows[0];
   };
 
+  // El scope por institucion_id garantiza que un gestor solo pueda
+  // modificar comunicados de su propia institución.
+  updateAsync = async (id, institucion_id, { titulo, contenido, imagen_url }) => {
+    const result = await pool.query(`
+      UPDATE comunicado
+      SET titulo = $1, contenido = $2, imagen_url = $3
+      WHERE id = $4 AND institucion_id = $5 AND activo = true
+      RETURNING *
+    `, [titulo, contenido, imagen_url || null, id, institucion_id]);
+
+    return result.rows[0] ?? null;
+  };
+
+  // Baja lógica: el feed solo lista comunicados con activo = true
+  deleteAsync = async (id, institucion_id) => {
+    const result = await pool.query(`
+      UPDATE comunicado
+      SET activo = false
+      WHERE id = $1 AND institucion_id = $2 AND activo = true
+      RETURNING id
+    `, [id, institucion_id]);
+
+    return result.rows[0] ?? null;
+  };
+
   getAllByInstitucionAsync = async (institucion_id) => {
     const result = await pool.query(`
       SELECT
