@@ -1,9 +1,15 @@
 import CalificacionRepository from '../repositories/calificacionRepository.js';
+import BimestreRepository from '../repositories/bimestreRepository.js';
 
 export default class CalificacionService {
   constructor() {
     this.repo = new CalificacionRepository();
+    this.bimestreRepo = new BimestreRepository();
   }
+
+  getBimestreByIdAsync = async (bimestreId) => {
+    return await this.bimestreRepo.getByIdAsync(bimestreId);
+  };
 
   getDetallePcmAsync = async (pcmId) => {
     return await this.repo.getDetallePcmAsync(pcmId);

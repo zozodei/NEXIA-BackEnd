@@ -49,6 +49,16 @@ router.post('/', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
       return badRequest(res, 'El alumno no pertenece al curso de esa materia');
     }
 
+    const bimestre = await service.getBimestreByIdAsync(req.body.bimestre_id);
+
+    if (!bimestre) {
+      return badRequest(res, 'El bimestre no existe');
+    }
+
+    if (String(bimestre.institucion_id) !== String(pcm.institucion_id)) {
+      return badRequest(res, 'El bimestre no pertenece a la institución del curso');
+    }
+
     const data = await service.upsertAsync({
       alumno_id: req.body.alumno_id,
       curso_materia_id: pcm.curso_materia_id,

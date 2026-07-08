@@ -1,7 +1,15 @@
 import pool from '../database/db.js';
 
 export default class ContenidoRepository {
-  getAllAsync = async () => {
+  getAllAsync = async (institucionId = null) => {
+    const values = [];
+    let filtro = '';
+
+    if (institucionId) {
+      values.push(institucionId);
+      filtro = 'WHERE c.institucion_id = $1';
+    }
+
     const result = await pool.query(`
       SELECT
         con.id AS contenido_id,
@@ -28,8 +36,9 @@ export default class ContenidoRepository {
       INNER JOIN curso_materia cm ON cm.id = pcm.curso_materia_id
       INNER JOIN materia m ON m.id = cm.materia_id
       INNER JOIN curso c ON c.id = cm.curso_id
+      ${filtro}
       ORDER BY con.fecha_creacion DESC
-    `);
+    `, values);
 
     return result.rows;
   };

@@ -5,8 +5,8 @@ export default class ContenidoService {
     this.repo = new ContenidoRepository();
   }
 
-  getAllAsync = async () => {
-    return await this.repo.getAllAsync();
+  getAllAsync = async (institucionId = null) => {
+    return await this.repo.getAllAsync(institucionId);
   };
 
   createAsync = async (data) => {
@@ -19,6 +19,10 @@ export default class ContenidoService {
 
   getByProfesorAsync = async (profesorId) => {
     return await this.repo.getByProfesorAsync(profesorId);
+  };
+
+  getDetallePcmAsync = async (profeCursoMateriaId) => {
+    return await this.repo.getDetalleProfeCursoMateriaAsync(profeCursoMateriaId);
   };
 
   getByProfeCursoMateriaAsync = async (profeCursoMateriaId) => {

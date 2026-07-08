@@ -1,5 +1,33 @@
 import pool from '../database/db.js';
 
+/* La tabla calificacion necesita unicidad por (alumno_id, curso_materia_id, bimestre_id)
+   para que el upsert con ON CONFLICT funcione — el esquema original no la tenía
+   y cargar una nota fallaba con error 500 (42P10). Se asegura al primer uso:
+   1) elimina duplicados históricos (conserva la calificación más reciente)
+   2) crea el índice único si no existe. */
+
+let indiceAsegurado = false;
+
+async function ensureIndiceUnico() {
+  if (indiceAsegurado) return;
+
+  await pool.query(`
+    DELETE FROM calificacion c
+    USING calificacion dup
+    WHERE c.alumno_id = dup.alumno_id
+      AND c.curso_materia_id = dup.curso_materia_id
+      AND c.bimestre_id = dup.bimestre_id
+      AND c.id < dup.id
+  `);
+
+  await pool.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS calificacion_alumno_cm_bimestre_unique
+    ON calificacion (alumno_id, curso_materia_id, bimestre_id)
+  `);
+
+  indiceAsegurado = true;
+}
+
 export default class CalificacionRepository {
   getDetallePcmAsync = async (profeCursoMateriaId) => {
     const result = await pool.query(`
@@ -34,6 +62,7 @@ export default class CalificacionRepository {
   };
 
   upsertAsync = async ({ alumno_id, curso_materia_id, bimestre_id, profesor_id, nota, observaciones }) => {
+    await ensureIndiceUnico();
     const result = await pool.query(`
       INSERT INTO calificacion (
         alumno_id, curso_materia_id, bimestre_id, profesor_id, nota, observaciones
@@ -92,7 +121,10 @@ export default class CalificacionRepository {
         cm.id AS curso_materia_id
       FROM calificacion cal
       INNER JOIN bimestre b ON b.id = cal.bimestre_id
-      INNER JOIN curso_materia cm ON cm.id = cal.curso_materia_id
+      -- Solo materias del curso actual del alumno: una calificación cargada
+      -- sobre una materia de otro curso no debe aparecer en su boletín
+      INNER JOIN alumno a ON a.id = cal.alumno_id
+      INNER JOIN curso_materia cm ON cm.id = cal.curso_materia_id AND cm.curso_id = a.curso_id
       INNER JOIN materia m ON m.id = cm.materia_id
       WHERE cal.alumno_id = $1
       ORDER BY b.anio DESC, b.orden DESC, m.nombre

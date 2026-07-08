@@ -221,7 +221,9 @@ export default class TrabajoPracticoRepository {
       FROM entrega e
       INNER JOIN trabajo_practico tp ON tp.id = e.trabajo_practico_id
       INNER JOIN profe_curso_materia pcm ON pcm.id = tp.profe_curso_materia_id
-      INNER JOIN curso_materia cm ON cm.id = pcm.curso_materia_id
+      -- Solo TPs de materias del curso actual del alumno (misma regla que el resto del boletín)
+      INNER JOIN alumno a ON a.id = e.alumno_id
+      INNER JOIN curso_materia cm ON cm.id = pcm.curso_materia_id AND cm.curso_id = a.curso_id
       INNER JOIN materia m ON m.id = cm.materia_id
       WHERE e.alumno_id = $1 AND e.estado = 'corregido' AND tp.activo = true
       ORDER BY m.nombre, e.fecha_correccion DESC

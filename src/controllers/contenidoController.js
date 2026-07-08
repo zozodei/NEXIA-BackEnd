@@ -19,7 +19,9 @@ const service = new ContenidoService();
 // Vista admin — solo GESTOR y DIRECTIVO
 router.get('/', verifyToken, requireRoles('GESTOR', 'DIRECTIVO'), async (req, res) => {
   try {
-    const data = await service.getAllAsync();
+    // Limitado a la institución del token: no se ven contenidos de otras instituciones
+    const institucionId = req.user.institucion_id ?? req.query.institucion_id;
+    const data = await service.getAllAsync(institucionId);
     return ok(res, data);
   } catch (error) {
     return serverError(res, error);
@@ -108,6 +110,16 @@ router.post('/', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
 
     if (faltantes.length > 0) {
       return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
+    }
+
+    const pcm = await service.getDetallePcmAsync(req.body.profe_curso_materia_id);
+
+    if (!pcm) {
+      return badRequest(res, 'La materia asignada al profesor no existe');
+    }
+
+    if (String(pcm.profesor_id) !== String(req.user.profesor_id)) {
+      return forbidden(res, 'Solo podés subir contenido en tus propias materias');
     }
 
     const data = await service.createAsync(req.body);
