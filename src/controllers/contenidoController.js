@@ -46,7 +46,8 @@ router.get('/profesor/:profesorId', verifyToken, async (req, res) => {
   }
 });
 
-// Cualquier usuario autenticado puede ver contenidos de una materia
+// Contenidos de una materia: el ALUMNO solo si es de ese curso,
+// el PROFESOR solo si es su materia; GESTOR/DIRECTIVO sin restricción
 router.get('/profe-curso-materia/:profeCursoMateriaId', verifyToken, async (req, res) => {
   try {
     const data = await service.getByProfeCursoMateriaAsync(
@@ -55,6 +56,20 @@ router.get('/profe-curso-materia/:profeCursoMateriaId', verifyToken, async (req,
 
     if (!data) {
       return notFound(res, 'La materia asignada al profesor no existe');
+    }
+
+    const { rol, curso_id, profesor_id } = req.user;
+
+    if (rol === 'ALUMNO' && String(data.materia.curso_id) !== String(curso_id)) {
+      return forbidden(res, 'Esta materia no corresponde a tu curso');
+    }
+
+    if (rol === 'PROFESOR' && String(data.materia.profesor_id) !== String(profesor_id)) {
+      return forbidden(res, 'Solo podés ver los contenidos de tus propias materias');
+    }
+
+    if (!['GESTOR', 'DIRECTIVO', 'PROFESOR', 'ALUMNO'].includes(rol)) {
+      return forbidden(res, 'No tenés permiso para realizar esta acción');
     }
 
     return ok(res, data, 'Contenidos de la materia obtenidos correctamente');
@@ -129,12 +144,27 @@ router.put('/:id', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
 });
 
 // Cualquier usuario autenticado puede ver un contenido por ID
+// Detalle de un contenido: mismas reglas de pertenencia que la materia
 router.get('/contenido/:contenidoId', verifyToken, async (req, res) => {
   try {
     const data = await service.getByIdAsync(req.params.contenidoId);
 
     if (!data) {
       return notFound(res, 'El contenido no existe');
+    }
+
+    const { rol, curso_id, profesor_id } = req.user;
+
+    if (rol === 'ALUMNO' && String(data.curso_id) !== String(curso_id)) {
+      return forbidden(res, 'Este contenido no corresponde a tu curso');
+    }
+
+    if (rol === 'PROFESOR' && String(data.profesor_id) !== String(profesor_id)) {
+      return forbidden(res, 'Solo podés ver tus propios contenidos');
+    }
+
+    if (!['GESTOR', 'DIRECTIVO', 'PROFESOR', 'ALUMNO'].includes(rol)) {
+      return forbidden(res, 'No tenés permiso para realizar esta acción');
     }
 
     return ok(res, data, 'Contenido obtenido correctamente');

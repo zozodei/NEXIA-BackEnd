@@ -42,6 +42,26 @@ router.get('/:id', verifyToken, async (req, res) => {
   }
 });
 
+// Alumnos en riesgo en las materias del profesor — GESTOR, DIRECTIVO o el propio PROFESOR
+router.get('/:id/alumnos-en-riesgo', verifyToken, async (req, res) => {
+  try {
+    const { rol, profesor_id } = req.user;
+
+    if (rol === 'PROFESOR' && String(profesor_id) !== req.params.id) {
+      return forbidden(res, 'Solo podés ver los alumnos de tus propias materias');
+    }
+
+    if (!['GESTOR', 'DIRECTIVO', 'PROFESOR'].includes(rol)) {
+      return forbidden(res, 'No tenés permiso para realizar esta acción');
+    }
+
+    const data = await service.getAlumnosEnRiesgoAsync(req.params.id);
+    return ok(res, data);
+  } catch (error) {
+    return serverError(res, error);
+  }
+});
+
 // GESTOR, DIRECTIVO, o el propio PROFESOR
 router.get('/:id/materias', verifyToken, async (req, res) => {
   try {

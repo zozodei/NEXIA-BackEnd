@@ -154,6 +154,8 @@ export default class TrabajoPracticoRepository {
         m.id AS materia_id,
         m.nombre AS materia_nombre,
         pcm.id AS profe_curso_materia_id,
+        up.nombre AS profesor_nombre,
+        up.apellido AS profesor_apellido,
         e.id AS entrega_id,
         e.archivo_url AS entrega_archivo_url,
         e.comentario_alumno,
@@ -166,6 +168,8 @@ export default class TrabajoPracticoRepository {
       INNER JOIN curso_materia cm ON cm.curso_id = a.curso_id
       INNER JOIN materia m ON m.id = cm.materia_id
       INNER JOIN profe_curso_materia pcm ON pcm.curso_materia_id = cm.id
+      INNER JOIN profesor p ON p.id = pcm.profesor_id
+      INNER JOIN usuario up ON up.id = p.usuario_id
       INNER JOIN trabajo_practico tp ON tp.profe_curso_materia_id = pcm.id AND tp.activo = true
       LEFT JOIN entrega e ON e.trabajo_practico_id = tp.id AND e.alumno_id = a.id
       WHERE a.id = $1

@@ -3,12 +3,13 @@ import IaService from '../services/iaService.js';
 import { ok, badRequest, serverError } from '../helpers/responseHelper.js';
 import { missingFields } from '../helpers/validationHelper.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
+import { requireRoles } from '../middleware/rolesMiddleware.js';
 
 const router = Router();
 const service = new IaService();
 
-// Cualquier usuario autenticado puede consultar al tutor de IA
-router.post('/consulta', verifyToken, async (req, res) => {
+// El tutor pedagógico es para alumnos y profesores (el gestor no tiene acceso)
+router.post('/consulta', verifyToken, requireRoles('ALUMNO', 'PROFESOR'), async (req, res) => {
   try {
     const faltantes = missingFields(req.body, ['pregunta']);
 

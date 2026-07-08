@@ -2,6 +2,46 @@ import bcrypt from 'bcryptjs';
 import pool from '../database/db.js';
 
 export default class GestorRepository {
+  // ── Checks de pertenencia (scope multi-institución) ──
+
+  institucionTieneGestorAsync = async (institucion_id) => {
+    const result = await pool.query(`
+      SELECT gestor_id FROM institucion WHERE id = $1
+    `, [institucion_id]);
+
+    return !!result.rows[0]?.gestor_id;
+  };
+
+  profesorPerteneceAInstitucionAsync = async (profesor_id, institucion_id) => {
+    const result = await pool.query(`
+      SELECT 1
+      FROM profesor p
+      INNER JOIN usuario u ON u.id = p.usuario_id
+      WHERE p.id = $1 AND u.institucion_id = $2
+    `, [profesor_id, institucion_id]);
+
+    return result.rows.length > 0;
+  };
+
+  cursoPerteneceAInstitucionAsync = async (curso_id, institucion_id) => {
+    const result = await pool.query(`
+      SELECT 1 FROM curso WHERE id = $1 AND institucion_id = $2
+    `, [curso_id, institucion_id]);
+
+    return result.rows.length > 0;
+  };
+
+  alumnoPerteneceAInstitucionAsync = async (alumno_id, institucion_id) => {
+    const result = await pool.query(`
+      SELECT 1
+      FROM alumno a
+      INNER JOIN usuario u ON u.id = a.usuario_id
+      WHERE a.id = $1 AND u.institucion_id = $2
+    `, [alumno_id, institucion_id]);
+
+    return result.rows.length > 0;
+  };
+
   crearGestorAsync = async ({ nombre, dni, password, institucion_id }) => {
     const client = await pool.connect();
 

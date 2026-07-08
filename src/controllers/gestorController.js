@@ -6,6 +6,7 @@ import {
   badRequest,
   notFound,
   conflict,
+  forbidden,
   serverError
 } from '../helpers/responseHelper.js';
 import { missingFields } from '../helpers/validationHelper.js';
@@ -27,13 +28,21 @@ const handlePostgresError = (res, error) => {
   return serverError(res, error);
 };
 
-// Ruta de bootstrap — pública para crear el primer gestor
+// Ruta de bootstrap — SOLO sirve para crear el PRIMER gestor de una
+// institución. Si la institución ya tiene gestor, se rechaza: evita que
+// cualquiera se cree una cuenta de administrador.
 router.post('/', async (req, res) => {
   try {
-    const faltantes = missingFields(req.body, ['nombre', 'dni', 'password']);
+    const faltantes = missingFields(req.body, ['nombre', 'dni', 'password', 'institucion_id']);
 
     if (faltantes.length > 0) {
       return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
+    }
+
+    const yaTieneGestor = await service.institucionTieneGestorAsync(req.body.institucion_id);
+
+    if (yaTieneGestor) {
+      return forbidden(res, 'La institución ya tiene un gestor asignado');
     }
 
     const data = await service.crearGestorAsync(req.body);
@@ -47,7 +56,6 @@ router.post('/', async (req, res) => {
 router.post('/alumnos', verifyToken, requireRoles('GESTOR'), async (req, res) => {
   try {
     const faltantes = missingFields(req.body, [
-      'institucion_id',
       'nombre',
       'apellido',
       'email',
@@ -60,7 +68,17 @@ router.post('/alumnos', verifyToken, requireRoles('GESTOR'), async (req, res) =>
       return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
     }
 
-    const data = await service.crearAlumnoAsync(req.body);
+    // La institución sale SIEMPRE del token: un gestor no puede crear
+    // alumnos en otra institución
+    const institucion_id = req.user.institucion_id;
+
+    const cursoValido = await service.cursoPerteneceAInstitucionAsync(req.body.curso_id, institucion_id);
+
+    if (!cursoValido) {
+      return badRequest(res, 'El curso no pertenece a tu institución');
+    }
+
+    const data = await service.crearAlumnoAsync({ ...req.body, institucion_id });
     return created(res, data, 'Alumno creado correctamente');
   } catch (error) {
     return handlePostgresError(res, error);
@@ -70,7 +88,6 @@ router.post('/alumnos', verifyToken, requireRoles('GESTOR'), async (req, res) =>
 router.post('/profesores', verifyToken, requireRoles('GESTOR'), async (req, res) => {
   try {
     const faltantes = missingFields(req.body, [
-      'institucion_id',
       'nombre',
       'apellido',
       'email',
@@ -82,7 +99,11 @@ router.post('/profesores', verifyToken, requireRoles('GESTOR'), async (req, res)
       return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
     }
 
-    const data = await service.crearProfesorAsync(req.body);
+    // La institución sale SIEMPRE del token
+    const data = await service.crearProfesorAsync({
+      ...req.body,
+      institucion_id: req.user.institucion_id
+    });
     return created(res, data, 'Profesor creado correctamente');
   } catch (error) {
     return handlePostgresError(res, error);
@@ -95,6 +116,21 @@ router.put('/alumnos/:alumnoId/curso', verifyToken, requireRoles('GESTOR'), asyn
 
     if (faltantes.length > 0) {
       return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
+    }
+
+    const institucion_id = req.user.institucion_id;
+
+    const [alumnoValido, cursoValido] = await Promise.all([
+      service.alumnoPerteneceAInstitucionAsync(req.params.alumnoId, institucion_id),
+      service.cursoPerteneceAInstitucionAsync(req.body.curso_id, institucion_id)
+    ]);
+
+    if (!alumnoValido) {
+      return forbidden(res, 'El alumno no pertenece a tu institución');
+    }
+
+    if (!cursoValido) {
+      return badRequest(res, 'El curso no pertenece a tu institución');
     }
 
     const data = await service.asignarAlumnoACursoAsync(
@@ -122,6 +158,21 @@ router.post('/profesores/asignar-materia', verifyToken, requireRoles('GESTOR'), 
 
     if (faltantes.length > 0) {
       return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
+    }
+
+    const institucion_id = req.user.institucion_id;
+
+    const [profesorValido, cursoValido] = await Promise.all([
+      service.profesorPerteneceAInstitucionAsync(req.body.profesor_id, institucion_id),
+      service.cursoPerteneceAInstitucionAsync(req.body.curso_id, institucion_id)
+    ]);
+
+    if (!profesorValido) {
+      return forbidden(res, 'El profesor no pertenece a tu institución');
+    }
+
+    if (!cursoValido) {
+      return badRequest(res, 'El curso no pertenece a tu institución');
     }
 
     const data = await service.asignarProfesorAMateriaAsync(req.body);

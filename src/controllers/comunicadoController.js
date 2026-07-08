@@ -5,6 +5,7 @@ import {
   created,
   badRequest,
   notFound,
+  forbidden,
   serverError
 } from '../helpers/responseHelper.js';
 import { missingFields } from '../helpers/validationHelper.js';
@@ -79,9 +80,13 @@ router.delete('/:id', verifyToken, requireRoles('GESTOR'), async (req, res) => {
   }
 });
 
-// Cualquier usuario autenticado puede ver los comunicados
+// Cualquier usuario autenticado puede ver los comunicados de SU institución
 router.get('/:institucion_id', verifyToken, async (req, res) => {
   try {
+    if (String(req.user.institucion_id) !== req.params.institucion_id) {
+      return forbidden(res, 'Solo podés ver los comunicados de tu institución');
+    }
+
     const data = await service.getAllByInstitucionAsync(req.params.institucion_id);
     return ok(res, data, 'Comunicados obtenidos correctamente');
   } catch (error) {

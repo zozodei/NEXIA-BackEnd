@@ -1,7 +1,35 @@
 import pool from '../database/db.js';
 
+/* La tabla entrega necesita unicidad por (trabajo_practico_id, alumno_id)
+   para que el upsert con ON CONFLICT funcione — el esquema original no la
+   tenía y toda entrega fallaba con error 500. Se asegura al primer uso:
+   1) elimina duplicados históricos (conserva la entrega más reciente)
+   2) crea el índice único si no existe. */
+
+let indiceAsegurado = false;
+
+async function ensureIndiceUnico() {
+  if (indiceAsegurado) return;
+
+  await pool.query(`
+    DELETE FROM entrega e
+    USING entrega dup
+    WHERE e.trabajo_practico_id = dup.trabajo_practico_id
+      AND e.alumno_id = dup.alumno_id
+      AND e.id < dup.id
+  `);
+
+  await pool.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS entrega_tp_alumno_unique
+    ON entrega (trabajo_practico_id, alumno_id)
+  `);
+
+  indiceAsegurado = true;
+}
+
 export default class EntregaRepository {
   getByAlumnoYTpAsync = async (trabajoPracticoId, alumnoId) => {
+    await ensureIndiceUnico();
     const result = await pool.query(`
       SELECT *
       FROM entrega
@@ -13,6 +41,7 @@ export default class EntregaRepository {
 
   // Una sola fila por alumno/TP: si ya existía la entrega, se reemplaza (queda en estado 'pendiente' de nuevo)
   upsertAsync = async ({ trabajo_practico_id, alumno_id, archivo_url, comentario_alumno }) => {
+    await ensureIndiceUnico();
     const result = await pool.query(`
       INSERT INTO entrega (
         trabajo_practico_id, alumno_id, archivo_url, comentario_alumno, estado

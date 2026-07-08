@@ -8,7 +8,7 @@ import {
   forbidden,
   serverError
 } from '../helpers/responseHelper.js';
-import { missingFields } from '../helpers/validationHelper.js';
+import { missingFields, notaValida } from '../helpers/validationHelper.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { requireRoles } from '../middleware/rolesMiddleware.js';
 
@@ -27,6 +27,10 @@ router.post('/', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
 
     if (faltantes.length > 0) {
       return badRequest(res, `Faltan campos: ${faltantes.join(', ')}`);
+    }
+
+    if (!notaValida(req.body.nota)) {
+      return badRequest(res, 'La nota debe ser un número entre 0 y 10');
     }
 
     const pcm = await service.getDetallePcmAsync(req.body.profe_curso_materia_id);

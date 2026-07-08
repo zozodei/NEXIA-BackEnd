@@ -8,7 +8,9 @@ const service = new MateriaService();
 
 router.get('/', verifyToken, async (req, res) => {
   try {
-    const data = await service.getAllAsync(req.query.institucion_id);
+    // Limitado a la institución del token
+    const institucionId = req.user.institucion_id ?? req.query.institucion_id;
+    const data = await service.getAllAsync(institucionId);
     return ok(res, data);
   } catch (error) {
     return serverError(res, error);

@@ -21,6 +21,7 @@ import calificacionController from './controllers/calificacionController.js';
 import boletinController from './controllers/boletinController.js';
 import iaController from './controllers/iaController.js';
 import apunteController from './controllers/apunteController.js';
+import eventoController from './controllers/eventoController.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -52,6 +53,7 @@ app.use('/api/calificaciones', calificacionController);
 app.use('/api/boletin', boletinController);
 app.use('/api/ia', iaController);
 app.use('/api/apuntes', apunteController);
+app.use('/api/eventos', eventoController);
 
 app.use((req, res) => {
   res.status(404).json({
