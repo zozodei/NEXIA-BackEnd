@@ -14,7 +14,6 @@ const service = new AuthService();
 router.post('/login', async (req, res) => {
   try {
     const faltantes = missingFields(req.body, [
-      'institucion_id',
       'dni',
       'password'
     ]);
@@ -26,7 +25,7 @@ router.post('/login', async (req, res) => {
     const user = await service.loginAsync(req.body);
 
     if (!user) {
-      return unauthorized(res, 'Institución, DNI o contraseña incorrectos');
+      return unauthorized(res, 'DNI o contraseña incorrectos');
     }
 
     return ok(res, user, 'Login correcto');

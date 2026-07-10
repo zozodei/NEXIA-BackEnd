@@ -14,20 +14,22 @@ export default class AuthService {
     this.repo = new AuthRepository();
   }
 
-  loginAsync = async ({ institucion_id, dni, password }) => {
-    const usuario = await this.repo.loginUsuarioAsync({ institucion_id, dni });
-    if (usuario && await bcrypt.compare(password, usuario.password)) {
-      return this.#buildResponse(usuario);
-    }
+  // La institución se deriva del DNI. Como el mismo DNI podría existir en más
+  // de una institución (alumno en una, docente en otra…), se reúnen todos los
+  // candidatos y se desambigua con la contraseña: se loguea al único cuya
+  // contraseña coincide. El orden usuario → gestor → director define la
+  // prioridad ante un empate improbable.
+  loginAsync = async ({ dni, password }) => {
+    const candidatos = [
+      ...await this.repo.loginUsuarioAsync({ dni }),
+      ...await this.repo.loginGestorAsync({ dni }),
+      ...await this.repo.loginDirectorAsync({ dni })
+    ];
 
-    const gestor = await this.repo.loginGestorAsync({ institucion_id, dni });
-    if (gestor && await bcrypt.compare(password, gestor.password)) {
-      return this.#buildResponse(gestor);
-    }
-
-    const director = await this.repo.loginDirectorAsync({ institucion_id, dni });
-    if (director && await bcrypt.compare(password, director.password)) {
-      return this.#buildResponse(director);
+    for (const candidato of candidatos) {
+      if (candidato?.password && await bcrypt.compare(password, candidato.password)) {
+        return this.#buildResponse(candidato);
+      }
     }
 
     return null;

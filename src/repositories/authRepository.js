@@ -1,7 +1,10 @@
 import pool from '../database/db.js';
 
 export default class AuthRepository {
-  loginUsuarioAsync = async ({ institucion_id, dni }) => {
+  // La institución se deriva del DNI: se buscan todos los candidatos activos
+  // con ese DNI (puede haber más de uno si el mismo DNI existe en distintas
+  // instituciones). El authService desambigua comparando la contraseña.
+  loginUsuarioAsync = async ({ dni }) => {
     const result = await pool.query(`
       SELECT
         u.id AS usuario_id,
@@ -33,16 +36,14 @@ export default class AuthRepository {
       LEFT JOIN profesor p ON p.usuario_id = u.id
       LEFT JOIN coordinador co ON co.usuario_id = u.id
 
-      WHERE u.institucion_id = $1
-        AND u.dni = $2
+      WHERE u.dni = $1
         AND u.activo = true
-      LIMIT 1
-    `, [institucion_id, String(dni)]);
+    `, [String(dni)]);
 
-    return result.rows[0] || null;
+    return result.rows;
   };
 
-  loginGestorAsync = async ({ institucion_id, dni }) => {
+  loginGestorAsync = async ({ dni }) => {
     const result = await pool.query(`
       SELECT
         NULL::bigint AS usuario_id,
@@ -71,15 +72,13 @@ export default class AuthRepository {
       FROM gestor g
       INNER JOIN institucion i ON i.gestor_id = g.id
 
-      WHERE i.id = $1
-        AND g.dni = $2
-      LIMIT 1
-    `, [institucion_id, String(dni)]);
+      WHERE g.dni = $1
+    `, [String(dni)]);
 
-    return result.rows[0] || null;
+    return result.rows;
   };
 
-  loginDirectorAsync = async ({ institucion_id, dni }) => {
+  loginDirectorAsync = async ({ dni }) => {
     const result = await pool.query(`
       SELECT
         NULL::bigint AS usuario_id,
@@ -108,11 +107,9 @@ export default class AuthRepository {
       FROM director d
       INNER JOIN institucion i ON i.director_id = d.id
 
-      WHERE i.id = $1
-        AND d.dni = $2
-      LIMIT 1
-    `, [institucion_id, Number(dni)]);
+      WHERE d.dni = $1
+    `, [Number(dni)]);
 
-    return result.rows[0] || null;
+    return result.rows;
   };
 }
