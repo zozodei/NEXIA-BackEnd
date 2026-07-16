@@ -11,9 +11,11 @@ import {
 import { missingFields } from '../helpers/validationHelper.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { requireRoles } from '../middleware/rolesMiddleware.js';
+import NotificacionService from '../services/notificacionService.js';
 
 const router = Router();
 const service = new ComunicadoService();
+const notificaciones = new NotificacionService();
 
 // Solo el gestor puede crear comunicados — gestor_id e institucion_id vienen del token
 router.post('/', verifyToken, requireRoles('GESTOR'), async (req, res) => {
@@ -28,6 +30,12 @@ router.post('/', verifyToken, requireRoles('GESTOR'), async (req, res) => {
       ...req.body,
       gestor_id: req.user.gestor_id,
       institucion_id: req.user.institucion_id
+    });
+
+    // Avisar por email a la institución (fire-and-forget)
+    notificaciones.notificarComunicado({
+      comunicado: data,
+      institucionNombre: req.user.institucion_nombre,
     });
 
     return created(res, data, 'Comunicado creado correctamente');

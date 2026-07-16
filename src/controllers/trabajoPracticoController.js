@@ -12,9 +12,11 @@ import { missingFields, notaValida } from '../helpers/validationHelper.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { requireRoles } from '../middleware/rolesMiddleware.js';
 import uploadEntregable from '../middleware/uploadEntregableMiddleware.js';
+import NotificacionService from '../services/notificacionService.js';
 
 const router = Router();
 const service = new TrabajoPracticoService();
+const notificaciones = new NotificacionService();
 
 // Sube el archivo (consigna del profesor o entrega del alumno) y devuelve la URL
 router.post(
@@ -101,6 +103,12 @@ router.patch('/:id/estado', verifyToken, requireRoles('PROFESOR'), async (req, r
     }
 
     const data = await service.setEstadoAsync(req.params.id, req.body.activo);
+
+    // Primera publicación (fecha_publicacion estaba en null): avisar a los
+    // alumnos del curso. Fire-and-forget: no bloquea ni rompe la respuesta.
+    if (req.body.activo === true && !tp.fecha_publicacion) {
+      notificaciones.notificarNuevoTp({ tp });
+    }
 
     return ok(
       res,
@@ -305,6 +313,13 @@ router.put('/:id/notas/:alumnoId', verifyToken, requireRoles('PROFESOR'), async 
     if (!resultado) {
       return badRequest(res, 'El alumno todavía no entregó este trabajo práctico');
     }
+
+    // Avisar al alumno que su entrega fue corregida (fire-and-forget)
+    notificaciones.notificarCorreccionTp({
+      alumnoId: req.params.alumnoId,
+      tp,
+      entrega: resultado,
+    });
 
     return ok(res, resultado, 'Nota registrada correctamente');
   } catch (error) {
