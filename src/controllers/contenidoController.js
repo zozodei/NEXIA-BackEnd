@@ -12,6 +12,7 @@ import { missingFields } from '../helpers/validationHelper.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { requireRoles } from '../middleware/rolesMiddleware.js';
 import upload from '../middleware/uploadMiddleware.js';
+import { uploadToBucket, BUCKETS } from '../services/storageService.js';
 
 const router = Router();
 const service = new ContenidoService();
@@ -91,10 +92,14 @@ router.post(
       next();
     });
   },
-  (req, res) => {
-    if (!req.file) return badRequest(res, 'No se recibió ningún archivo');
-    const url = `http://localhost:3000/uploads/${req.file.filename}`;
-    return ok(res, { url }, 'Archivo subido correctamente');
+  async (req, res) => {
+    try {
+      if (!req.file) return badRequest(res, 'No se recibió ningún archivo');
+      const url = await uploadToBucket(BUCKETS.CONTENIDOS, req.file);
+      return ok(res, { url }, 'Archivo subido correctamente');
+    } catch (error) {
+      return serverError(res, error);
+    }
   }
 );
 

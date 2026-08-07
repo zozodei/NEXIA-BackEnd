@@ -13,6 +13,7 @@ import { verifyToken } from '../middleware/authMiddleware.js';
 import { requireRoles } from '../middleware/rolesMiddleware.js';
 import uploadEntregable from '../middleware/uploadEntregableMiddleware.js';
 import NotificacionService from '../services/notificacionService.js';
+import { uploadToBucket, BUCKETS } from '../services/storageService.js';
 
 const router = Router();
 const service = new TrabajoPracticoService();
@@ -29,10 +30,14 @@ router.post(
       next();
     });
   },
-  (req, res) => {
-    if (!req.file) return badRequest(res, 'No se recibió ningún archivo');
-    const url = `http://localhost:3000/uploads/${req.file.filename}`;
-    return ok(res, { url }, 'Archivo subido correctamente');
+  async (req, res) => {
+    try {
+      if (!req.file) return badRequest(res, 'No se recibió ningún archivo');
+      const url = await uploadToBucket(BUCKETS.ENTREGABLES, req.file);
+      return ok(res, { url }, 'Archivo subido correctamente');
+    } catch (error) {
+      return serverError(res, error);
+    }
   }
 );
 

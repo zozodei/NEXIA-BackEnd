@@ -1,9 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 import authController from './controllers/authController.js';
 import alumnoController from './controllers/alumnoController.js';
@@ -22,14 +18,13 @@ import boletinController from './controllers/boletinController.js';
 import iaController from './controllers/iaController.js';
 import apunteController from './controllers/apunteController.js';
 import eventoController from './controllers/eventoController.js';
-import usuarioController from './controllers/usuarioController.js';
+import perfilController from './controllers/perfilController.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({
@@ -55,7 +50,7 @@ app.use('/api/boletin', boletinController);
 app.use('/api/ia', iaController);
 app.use('/api/apuntes', apunteController);
 app.use('/api/eventos', eventoController);
-app.use('/api/usuarios', usuarioController);
+app.use('/api/perfil', perfilController);
 
 app.use((req, res) => {
   res.status(404).json({
