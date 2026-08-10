@@ -27,6 +27,14 @@ export default class TrabajoPracticoService {
     return await this.repo.getByIdAsync(id);
   };
 
+  countEntregasAsync = async (id) => {
+    return await this.repo.countEntregasAsync(id);
+  };
+
+  deleteAsync = async (id) => {
+    return await this.repo.deleteAsync(id);
+  };
+
   getByProfeCursoMateriaAsync = async (pcmId, opts) => {
     return await this.repo.getByProfeCursoMateriaAsync(pcmId, opts);
   };

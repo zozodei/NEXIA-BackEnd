@@ -92,6 +92,31 @@ router.put('/:id', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
   }
 });
 
+// Borrar un TP — solo el PROFESOR dueño, y solo si nadie entregó todavía
+// (si hay entregas, primero habría que decidir qué pasa con esas notas)
+router.delete('/:id', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
+  try {
+    const tp = await service.getByIdAsync(req.params.id);
+
+    if (!tp) return notFound(res, 'El trabajo práctico no existe');
+
+    if (String(tp.profesor_id) !== String(req.user.profesor_id)) {
+      return forbidden(res, 'Solo podés eliminar tus propios trabajos prácticos');
+    }
+
+    const cantidadEntregas = await service.countEntregasAsync(req.params.id);
+
+    if (cantidadEntregas > 0) {
+      return badRequest(res, 'No podés eliminar un trabajo práctico que ya tiene entregas de alumnos');
+    }
+
+    await service.deleteAsync(req.params.id);
+    return ok(res, null, 'Trabajo práctico eliminado correctamente');
+  } catch (error) {
+    return serverError(res, error);
+  }
+});
+
 // Publicar / volver a borrador — solo el PROFESOR dueño
 router.patch('/:id/estado', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
   try {

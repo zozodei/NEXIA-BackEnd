@@ -160,6 +160,24 @@ router.put('/:id', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
   }
 });
 
+// Solo el PROFESOR dueño puede borrar su contenido
+router.delete('/:id', verifyToken, requireRoles('PROFESOR'), async (req, res) => {
+  try {
+    const existente = await service.getByIdAsync(req.params.id);
+
+    if (!existente) return notFound(res, 'El contenido no existe');
+
+    if (String(existente.profesor_id) !== String(req.user.profesor_id)) {
+      return forbidden(res, 'Solo podés eliminar tus propios contenidos');
+    }
+
+    await service.deleteAsync(req.params.id);
+    return ok(res, null, 'Contenido eliminado correctamente');
+  } catch (error) {
+    return serverError(res, error);
+  }
+});
+
 // Cualquier usuario autenticado puede ver un contenido por ID
 // Detalle de un contenido: mismas reglas de pertenencia que la materia
 router.get('/contenido/:contenidoId', verifyToken, async (req, res) => {

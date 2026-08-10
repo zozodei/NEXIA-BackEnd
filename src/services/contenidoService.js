@@ -43,4 +43,8 @@ export default class ContenidoService {
   getByIdAsync = async (contenidoId) => {
     return await this.repo.getByIdAsync(contenidoId);
   };
+
+  deleteAsync = async (id) => {
+    return await this.repo.deleteAsync(id);
+  };
 }

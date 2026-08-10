@@ -195,6 +195,14 @@ export default class ContenidoRepository {
     return result.rows[0] || null;
   };
 
+  deleteAsync = async (id) => {
+    const result = await pool.query(`
+      DELETE FROM contenido WHERE id = $1 RETURNING id
+    `, [id]);
+
+    return result.rows[0] || null;
+  };
+
   getByIdAsync = async (contenidoId) => {
     const result = await pool.query(`
       SELECT

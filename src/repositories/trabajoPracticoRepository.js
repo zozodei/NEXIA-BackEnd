@@ -87,6 +87,22 @@ export default class TrabajoPracticoRepository {
     return result.rows[0] || null;
   };
 
+  countEntregasAsync = async (id) => {
+    const result = await pool.query(`
+      SELECT COUNT(*)::int AS count FROM entrega WHERE trabajo_practico_id = $1
+    `, [id]);
+
+    return result.rows[0].count;
+  };
+
+  deleteAsync = async (id) => {
+    const result = await pool.query(`
+      DELETE FROM trabajo_practico WHERE id = $1 RETURNING id
+    `, [id]);
+
+    return result.rows[0] || null;
+  };
+
   getByIdAsync = async (id) => {
     const result = await pool.query(`
       SELECT
