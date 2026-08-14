@@ -19,7 +19,17 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-console.log(process.env.DATABASE_URL);
+/* Antes acá se imprimía DATABASE_URL entera, que incluye usuario y
+   contraseña. En local pasa desapercibido, pero en un hosting los logs
+   quedan guardados: alcanzaba con abrir el panel de Render para leer la
+   credencial de la base. Se deja sólo el host, que es lo único que hace
+   falta para saber contra qué entorno se está corriendo. */
+try {
+  const { hostname, port } = new URL(process.env.DATABASE_URL);
+  console.log(`Base de datos: ${hostname}:${port}`);
+} catch {
+  console.warn('DATABASE_URL ausente o mal formada — revisá el .env');
+}
 
 pool.connect((err, client, release) => {
   if (err) {

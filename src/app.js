@@ -18,6 +18,9 @@ import calificacionController from './controllers/calificacionController.js';
 import boletinController from './controllers/boletinController.js';
 import iaController from './controllers/iaController.js';
 import apunteController from './controllers/apunteController.js';
+import estudioController from './controllers/estudioController.js';
+import mazoController from './controllers/mazoController.js';
+import mapaController from './controllers/mapaController.js';
 import eventoController from './controllers/eventoController.js';
 import perfilController from './controllers/perfilController.js';
 
@@ -51,6 +54,11 @@ app.use('/api/calificaciones', calificacionController);
 app.use('/api/boletin', boletinController);
 app.use('/api/ia', iaController);
 app.use('/api/apuntes', apunteController);
+
+// Zona de estudio — Pomodoro, objetivos, flashcards y mapas conceptuales
+app.use('/api/estudio', estudioController);
+app.use('/api/mazos', mazoController);
+app.use('/api/mapas', mapaController);
 app.use('/api/eventos', eventoController);
 app.use('/api/perfil', perfilController);
 
