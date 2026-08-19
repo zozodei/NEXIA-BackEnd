@@ -8,3 +8,9 @@ export const notaValida = (nota) => {
   const n = Number(nota);
   return Number.isFinite(n) && n >= 0 && n <= 10;
 };
+
+const ESTADOS_ASISTENCIA = ['presente', 'ausente', 'tardanza', 'justificado'];
+
+export const estadoAsistenciaValido = (estado) => {
+  return ESTADOS_ASISTENCIA.includes(estado);
+};

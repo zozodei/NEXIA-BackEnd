@@ -10,7 +10,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "db": "node ./src/database/db.js",
     "app": "cross-env NODE_EXTRA_CA_CERTS=./certs/fortinet-proxy-ca.pem node ./src/app.js",
-    "dev": "cross-env NODE_EXTRA_CA_CERTS=./certs/fortinet-proxy-ca.pem node ./src/app.js"
+    "dev": "cross-env NODE_EXTRA_CA_CERTS=./certs/fortinet-proxy-ca.pem node ./src/app.js",
+    "backup": "node ./scripts/backup-datos.js",
+    "seed": "node ./scripts/seed-campus.js",
+    "seed:aplicar": "node ./scripts/seed-campus.js --confirmar"
   },
   "dependencies": {
     "@google/genai": "^2.10.0",
