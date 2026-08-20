@@ -5,9 +5,18 @@ import { uploadToBucket, deleteFromBucket, BUCKETS } from './storageService.js';
 const TEMAS_VALIDOS = ['claro', 'oscuro'];
 const IDIOMAS_VALIDOS = ['es', 'en'];
 const GENEROS_VALIDOS = ['masculino', 'femenino', 'otro', 'prefiero_no_decir'];
-const HAIR_STYLES = ['corto', 'medio', 'largo', 'rizado', 'rapado'];
-const GLASSES_VALIDOS = ['redondos', 'cuadrados', 'sol'];
-const HATS_VALIDOS = ['nexia', 'gorra', 'vincha'];
+// Espejo del catálogo del front (src/utils/avatar.ts). Los valores viejos van
+// primero y NO se quitan nunca: una config ya guardada tiene que seguir siendo
+// válida aunque el catálogo crezca.
+const HAIR_STYLES = [
+  'corto', 'medio', 'largo', 'rizado', 'rapado',
+  'ondulado', 'bob', 'coleta', 'rodete', 'trenzas',
+];
+const GLASSES_VALIDOS = ['redondos', 'cuadrados', 'sol', 'aviador', 'gato'];
+const HATS_VALIDOS = ['nexia', 'gorra', 'vincha', 'beanie', 'auriculares', 'birrete'];
+const VELLOS_VALIDOS = ['barba', 'candado', 'bigote'];
+const MARCAS_VALIDAS = ['pecas', 'lunar'];
+const FONDOS_VALIDOS = ['aurora', 'menta', 'atardecer', 'indigo', 'rosa', 'liso'];
 const HEX_RE = /^#[0-9A-Fa-f]{6}$/;
 const FECHA_RE = /^\d{4}-\d{2}-\d{2}$/;
 const BIOGRAFIA_MAX = 300;
@@ -56,12 +65,21 @@ const validarAvatarConfig = (avatar) => {
 
   validarHex(avatar.shirt_color, 'shirt_color');
 
+  // Campos agregados después. Son opcionales a propósito: un cliente viejo
+  // sigue guardando sin ellos y una config sin ellos sigue siendo válida.
+  const facialHair = validarOpcionalDeLista(avatar.facial_hair ?? null, 'facial_hair', VELLOS_VALIDOS);
+  const marks = validarOpcionalDeLista(avatar.marks ?? null, 'marks', MARCAS_VALIDAS);
+  const backdrop = validarOpcionalDeLista(avatar.backdrop ?? null, 'backdrop', FONDOS_VALIDOS) ?? 'aurora';
+
   return {
     skin: avatar.skin,
     hair: { style: avatar.hair.style, color: avatar.hair.color },
     eyes: avatar.eyes,
     accessories: { glasses, hat },
     shirt_color: avatar.shirt_color,
+    facial_hair: facialHair,
+    marks,
+    backdrop,
   };
 };
 
